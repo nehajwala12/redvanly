@@ -308,6 +308,35 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
 @keyframes cs-growx{from{transform:scaleX(0)}}
 @keyframes cs-fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){.panel.anim *{animation:none!important}}
+
+/* detail + polish */
+.kstrip{margin:0 0 26px}
+.kstrip .tile{position:relative}
+.kstrip .tile:first-child::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--cs-gold)}
+.answer{background:var(--cs-ink);color:var(--cs-cream);border-radius:var(--cs-radius);padding:30px 32px;margin:22px 0 8px;position:relative;overflow:hidden}
+.answer .kick{color:var(--cs-gold-pale)}
+.answer-line{font-family:var(--serif);font-size:28px;line-height:1.25;letter-spacing:-.4px;margin:10px 0 22px;max-width:40ch;color:var(--cs-cream)}
+.answer-line b{color:var(--cs-gold-pale);font-weight:600}
+.answer-nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:0;border-top:1px solid var(--cs-dark-border)}
+.answer-nums > div{padding:14px 16px 0 0;display:grid;gap:4px}
+.answer-nums .tl{color:var(--cs-dark-text-soft)}
+.answer-nums .av{font-family:var(--mono);font-size:20px;color:var(--cs-cream)}
+@media (max-width:600px){.answer{padding:22px 18px}.answer-line{font-size:22px}}
+tr.hl td{background:var(--pale-wash)}
+table.heat td.hm{text-align:center;font-family:var(--mono);font-size:12.5px;padding:10px 6px;border-bottom:2px solid var(--cs-cream);border-left:2px solid var(--cs-cream)}
+.cs-tip{position:fixed;z-index:100;pointer-events:none;background:var(--cs-ink);color:var(--cs-cream);font-family:var(--mono);font-size:11.5px;padding:7px 10px;border-radius:3px;opacity:0;transition:opacity .12s;max-width:280px}
+.cs-tip.on{opacity:1}
+svg circle.hit{opacity:0;cursor:crosshair;transition:opacity .12s}
+svg circle.hit:hover{opacity:.9}
+svg rect.bar:hover{opacity:.8}
+.brow[data-tip]:hover .lb{color:var(--ink)}
+.card{transition:border-color .2s}
+.card:hover{border-color:var(--cs-border-strong)}
+.panel.anim .card,.panel.anim .answer,.panel.anim .kstrip{animation:cs-rise .55s cubic-bezier(.3,.6,.3,1) both}
+.panel.anim .grid2>.card:nth-child(2),.panel.anim .grid3>.card:nth-child(2){animation-delay:.08s}
+.panel.anim .grid3>.card:nth-child(3){animation-delay:.16s}
+@keyframes cs-rise{from{opacity:0;transform:translateY(10px)}}
+.panel.anim svg rect.hbar{transform-origin:0 50%;animation-name:cs-growx}
 </style>
 </head>
 <body>
@@ -359,7 +388,18 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <p style="color:var(--ink)">Each figure carries a basis tag. <span class="tag call">Call</span> figures come from our conversation with the Redvanly team. <span class="tag pub">Public</span> figures come from the storefront, published policies and industry sources. <span class="tag mod">Model</span> figures are synthetic, calibrated to the call figures so the whole picture adds up. In a live engagement every Model figure is replaced by Redvanly's own Shopify, analytics, ad-platform and email data in the first week. The conclusions show the method and the likely shape of the answer. They are not yet findings.</p>
   </div>
 
-  <h2 style="margin-top:34px">The ecommerce business today</h2>
+  
+  <div class="answer">
+    <div class="kick">The answer in one line</div>
+    <p class="answer-line">Hold paid media at <b data-k="recB" data-f="m1">$4.0M</b>, move it out of harvest channels, and bank <b data-k="recDC" data-f="pm2">+$0.53M</b> of contribution while revenue holds. Then let a January holdout decide whether to spend more.</p>
+    <div class="answer-nums">
+      <div><span class="tl">Paid budget</span><span class="av"><span data-k="paid" data-f="m1">$4.6M</span> → <span data-k="recB" data-f="m1">$4.0M</span></span></div>
+      <div><span class="tl">Contribution margin</span><span class="av"><span data-k="cm" data-f="p1">30.0%</span> → <span data-k="cmRec" data-f="p1">33.0%</span></span></div>
+      <div><span class="tl">Revenue</span><span class="av"><span data-k="recRevPct" data-f="pp1">−0.6%</span></span></div>
+      <div><span class="tl">Best budget range</span><span class="av"><span data-k="optLo" data-f="m1">$1.5M</span>–<span data-k="optHi" data-f="m1">$6.4M</span></span></div>
+    </div>
+  </div>
+<h2 style="margin-top:34px">The ecommerce business today</h2>
   <p class="note" style="margin-top:0">Trailing twelve months, ecommerce only.</p>
   <div class="tiles">
     <div class="tile"><div class="tl">Ecom revenue <span class="tag call">Call</span></div><div class="tv"><span data-k="rev" data-f="m1">$19.0M</span></div><div class="ts"><span data-k="ecomShare" data-f="p0">38%</span> of <span data-k="company" data-f="m0">$50M</span> company</div></div>
@@ -452,6 +492,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>Where each ecommerce dollar goes</h1>
     <p>The call figures fix the top and bottom of the P&amp;L. The lines in between are modelled so they reconcile. The engagement's first job is to replace them with Shopify and finance actuals.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Orders per year</div><div class="tv "><span id="ks-orders">86.4K</span></div><div class="ts">$19.0M ÷ $220 AOV</div></div><div class="tile"><div class="tl">Contribution per order</div><div class="tv "><span id="ks-cpo">$66</span></div><div class="ts">after all marketing</div></div><div class="tile"><div class="tl">Marketing per order</div><div class="tv "><span id="ks-mpo">$70</span></div><div class="ts">paid and other marketing</div></div><div class="tile"><div class="tl">New customers</div><div class="tv "><span data-k="newK" data-f="k1">47.0K</span></div><div class="ts">per year</div></div></div>
+
 
   <div class="card">
     <h2>From revenue to net margin</h2>
@@ -508,7 +550,12 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <details><summary>Why use contribution rather than ROAS to set the budget?</summary><div>ROAS ignores returns, variable costs and whether the sale would have happened anyway. A budget set on contribution from the marginal dollar stops spending where the next dollar stops paying for itself. That rule works at any budget level and in any season.</div></details>
   </div>
 
-  <h2 style="margin-top:44px">More on the economics</h2>
+  
+  <div class="grid2">
+    <div class="card"><h2>One order, line by line</h2><p class="note" style="margin-top:0">Average ecommerce order, built from the P&amp;L above. Updates with the data block.</p><div class="tw" id="dd-order"></div></div>
+    <div class="card"><h2>Acquisition cohorts</h2><p class="note" style="margin-top:0">Newer cohorts are more paid-acquired and repeat more slowly. <span class="tag mod">Model</span></p><div class="tw" id="dd-cohort"></div></div>
+  </div>
+<h2 style="margin-top:44px">More on the economics</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Monthly ecommerce revenue</h3><figure><figcaption>$M, 2025 vs 2026 <span class="tag mod">Model</span></figcaption><div id="x-ec1"></div><div class="legend"><span><i style="background:var(--s5)"></i>2025</span><span><i style="background:var(--s1)"></i>2026</span></div></figure><p class="note">Spring and summer golf season and the holiday peak shape the year. 2026 runs ahead of 2025 in every month.</p></div>
     <div class="card"><h3 style="margin-top:0">Acquisition cost by quarter</h3><figure><figcaption>$ per new customer <span class="tag mod">Model</span></figcaption><div id="x-ec2"></div><div class="legend"><span><i style="background:var(--s2)"></i>Blended CAC</span><span><i style="background:var(--crit)"></i>Incremental paid CAC</span></div></figure><p class="note">Blended CAC is stable. Incremental paid CAC jumped in 2026, which is where efficiency got harder.</p></div>
@@ -578,7 +625,9 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <details><summary>What the planner cannot tell you</summary><div>It cannot tell you the true incrementality of each channel. That is the largest uncertainty, and the reason the "How incremental is paid?" control exists. It also ignores seasonality within the year, creative fatigue, inventory limits and the effect of ecommerce spend on wholesale and store sales. The engagement calibrates every curve on Redvanly's weekly spend and order history and then on test results.</div></details>
   </div>
 
-  <h2 style="margin-top:44px">How your plan moves the numbers</h2>
+  
+  <div class="card" style="margin-top:28px"><h2>Scenario comparison</h2><p class="note" style="margin-top:0">Every preset, run under your current levers and assumptions. The highlighted row is closest to your plan.</p><div class="tw" id="dd-scen"></div></div>
+<h2 style="margin-top:44px">How your plan moves the numbers</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Revenue change by channel</h3><figure><figcaption>$M vs today, your plan </figcaption><div id="x-pl1"></div></figure><p class="note">Bars update as you move the sliders.</p></div>
     <div class="card"><h3 style="margin-top:0">Spend and incremental revenue</h3><figure><figcaption>$M by channel, your plan </figcaption><div id="x-pl2"></div><div class="legend"><span><i style="background:var(--s2)"></i>Spend</span><span><i style="background:var(--s1)"></i>Incremental revenue</span></div></figure><p class="note">Where the gold bar is not much taller than the teal one, the channel barely pays for itself in its first year.</p></div>
@@ -593,6 +642,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>Where the paid dollar earns, and where it only collects credit</h1>
     <p>The same $4.6M looks very different on three bases: what platforms claim, what the trusted analytics source attributes, and what is incremental. Budget should follow the last of these, measured at the margin.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Paid spend</div><div class="tv "><span data-k="paid" data-f="m1">$4.6M</span></div><div class="ts">six channels</div></div><div class="tile"><div class="tl">Platform-reported</div><div class="tv "><span data-k="platform" data-f="m1">$17.4M</span></div><div class="ts">sum of in-platform claims</div></div><div class="tile"><div class="tl">Attributed</div><div class="tv "><span data-k="attr" data-f="m1">$10.2M</span></div><div class="ts">trusted analytics source</div></div><div class="tile"><div class="tl">Incremental</div><div class="tv gold"><span data-k="incRev" data-f="m1">$5.0M</span></div><div class="ts">model estimate</div></div></div>
+
 
   <div class="card">
     <h2>Channel scorecard</h2>
@@ -623,7 +674,12 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <details><summary><b>CTV and YouTube</b>: scale as a test, capped</summary><div>Attribution tools undercount it because it rarely gets the last click. The model gives it credit for halo effects, which is why its marginal return is highest. That credit is also the least certain number in the model. Scale to at most $0.75M, bought by region so the January geo holdout can read its effect.</div></details>
   </div>
 
-  <h2 style="margin-top:44px">More channel views</h2>
+  
+  <div class="grid2">
+    <div class="card"><h2>Channel operating metrics</h2><p class="note" style="margin-top:0">Trailing 12 months, platform-reported delivery metrics. <span class="tag mod">Model</span></p><div class="tw" id="dd-chops"></div></div>
+    <div class="card"><h2>Meta creative read</h2><p class="note" style="margin-top:0">Prospecting spend by creative theme. The pull-on demonstration earns most per dollar. <span class="tag mod">Model</span></p><div class="tw" id="dd-creative"></div></div>
+  </div>
+<h2 style="margin-top:44px">More channel views</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Three views of the same revenue</h3><figure><figcaption>$M credited to each channel <span class="tag mod">Model</span></figcaption><div id="x-ch1"></div><div class="legend"><span><i style="background:var(--s5)"></i>Platform-reported</span><span><i style="background:var(--s2)"></i>Attributed</span><span><i style="background:var(--s1)"></i>Incremental</span></div></figure><p class="note">Platforms claim the most. Only the incremental bar should drive the budget.</p></div>
     <div class="card"><h3 style="margin-top:0">Return on the next dollar as spend rises</h3><figure><figcaption>Lifetime contribution per $1 <span class="tag mod">Model</span></figcaption><div id="x-ch2"></div></figure><p class="note">Every curve falls as spend rises. Where a curve crosses the $1.00 line, spend should stop.</p></div>
@@ -638,6 +694,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>Can direct traffic replace paid traffic?</h1>
     <p>The team's thesis is that a well-known brand should get more of its traffic directly and need less paid media. It is partly right. The answer depends on which paid dollars you mean, and it can be tested properly.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Direct revenue</div><div class="tv ">$3.3M</div><div class="ts">17% of ecommerce</div></div><div class="tile"><div class="tl">B2B inside direct</div><div class="tv ">33%</div><div class="ts">$1.1M of account orders</div></div><div class="tile"><div class="tl">Halo per $1 prospecting</div><div class="tv ">$0.35</div><div class="ts">direct + brand search</div></div><div class="tile"><div class="tl">Holdout length</div><div class="tv ">8 wks</div><div class="ts">detects a ~5% change</div></div></div>
+
 
   <div class="grid2">
     <div class="card">
@@ -682,7 +740,12 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <p class="note">Test C runs after the holiday season on purpose, since Q4 is the wrong time to go dark in a quarter of the country. The planner's "How incremental is paid?" and "Direct recapture" controls preview what each outcome would mean for the budget.</p>
   </div>
 
-  <h2 style="margin-top:44px">More on direct vs paid</h2>
+  
+  <div class="grid2">
+    <div class="card"><h2>Test C: are the two groups alike?</h2><p class="note" style="margin-top:0">Matched on 52 weeks of history before launch. <span class="tag mod">Model</span></p><div class="tw" id="dd-match"></div></div>
+    <div class="card"><h2>Test calendar</h2><p class="note" style="margin-top:0">All three tests, October 2026 to March 2027.</p><div id="dd-testcal"></div></div>
+  </div>
+<h2 style="margin-top:44px">More on direct vs paid</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Direct revenue follows paid spend</h3><figure><figcaption>Index, Q1 2025 = 100 <span class="tag mod">Model</span></figcaption><div id="x-dr1"></div><div class="legend"><span><i style="background:var(--s5)"></i>Paid spend</span><span><i style="background:var(--s1)"></i>Direct revenue</span></div></figure><p class="note">Direct revenue rises and falls with paid spend a quarter later. That is what a halo looks like.</p></div>
     <div class="card"><h3 style="margin-top:0">Where new customers first heard of Redvanly</h3><figure><figcaption>Share of post-purchase survey answers <span class="tag mod">Model</span></figcaption><div id="x-dr2"></div></figure><p class="note">Word of mouth and golf courses lead. Paid social is a large minority, so direct traffic includes people it reached first.</p></div>
@@ -697,6 +760,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>The funnel loses most customers on mobile, between the bag and checkout</h1>
     <p>Per 100 sessions, the store gets 1.69 orders overall: 3.13 on desktop and 1.10 on mobile. The gap opens at add-to-cart and widens at checkout, where terms become concrete. <span class="tag mod">Model</span></p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Sessions per year</div><div class="tv ">5.1M</div><div class="ts">71% on mobile</div></div><div class="tile"><div class="tl">Order rate</div><div class="tv ">1.69%</div><div class="ts">all devices</div></div><div class="tile"><div class="tl">Mobile order rate</div><div class="tv ">1.10%</div><div class="ts">desktop 3.13%</div></div><div class="tile"><div class="tl">Mobile cart → checkout</div><div class="tv dn">48%</div><div class="ts">desktop 61%</div></div></div>
+
 
   <div class="grid2">
     <div class="card">
@@ -740,7 +805,12 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     </table></div>
   </div>
 
-  <h2 style="margin-top:44px">More funnel views</h2>
+  
+  <div class="grid2">
+    <div class="card"><h2>Order rate by source and device</h2><p class="note" style="margin-top:0">Darker cells convert better. Paid social on mobile is the weakest cell and the largest. <span class="tag mod">Model</span></p><div id="dd-heat"></div></div>
+    <div class="card"><h2>What product-page shoppers do</h2><p class="note" style="margin-top:0">Bottoms product pages, trailing 12 months. <span class="tag mod">Model</span></p><div class="tw" id="dd-pdp"></div></div>
+  </div>
+<h2 style="margin-top:44px">More funnel views</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Conversion by landing page</h3><figure><figcaption>Order rate, trailing 12 months <span class="tag mod">Model</span></figcaption><div id="x-fn1"></div></figure><p class="note">Paid-social visitors who land on a product page convert least. Search visitors to the same page convert best.</p></div>
     <div class="card"><h3 style="margin-top:0">Why mobile shoppers left checkout</h3><figure><figcaption>Exit survey, share of answers <span class="tag mod">Model</span></figcaption><div id="x-fn2"></div></figure><p class="note">Shipping cost and the return fee together explain more than half of exits. Both are terms, not design.</p></div>
@@ -755,6 +825,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>Owned channels are the cheapest replacement for paid revenue</h1>
     <p>Every dollar of revenue given up by trimming paid can be won back more cheaply through email, SMS and second purchases. Today those channels are underweight, and email weakened this year, as the team said on the call.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Email + SMS revenue</div><div class="tv ">$2.05M</div><div class="ts">trailing 12 months</div></div><div class="tile"><div class="tl">Share of ecommerce</div><div class="tv "><span data-k="owned" data-f="p1">10.8%</span></div><div class="ts">benchmark 20–30%</div></div><div class="tile"><div class="tl">New subscribers / month</div><div class="tv ">4.7K</div><div class="ts">down 23%</div></div><div class="tile"><div class="tl">Flows share</div><div class="tv ">31%</div><div class="ts">benchmark 41%</div></div></div>
+
 
   <div class="grid2">
     <div class="card">
@@ -803,7 +875,9 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     </div>
   </div>
 
-  <h2 style="margin-top:44px">More email and CRM views</h2>
+  
+  <div class="card"><h2>Flow audit</h2><p class="note" style="margin-top:0">Every automated flow, with revenue per recipient against apparel benchmarks. <span class="tag mod">Model</span></p><div class="tw" id="dd-flows"></div></div>
+<h2 style="margin-top:44px">More email and CRM views</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">New email subscribers</h3><figure><figcaption>Thousands per month, 2025 vs 2026 <span class="tag mod">Model</span></figcaption><div id="x-em1"></div><div class="legend"><span><i style="background:var(--s5)"></i>2025</span><span><i style="background:var(--s1)"></i>2026</span></div></figure><p class="note">List growth fell from February 2026, when the popup offer changed.</p></div>
     <div class="card"><h3 style="margin-top:0">Flows vs campaigns</h3><figure><figcaption>Email revenue, $K per quarter <span class="tag mod">Model</span></figcaption><div id="x-em2"></div><div class="legend"><span><i style="background:var(--s2)"></i>Flows</span><span><i style="background:var(--s3)"></i>Campaigns</span></div></figure><p class="note">Campaigns carry most of the revenue and most of the decline. Flows held steady.</p></div>
@@ -818,6 +892,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>Ten actions, ranked by value per unit of effort</h1>
     <p>Each action carries a confidence level. <b>Modelled</b> means the direction is supported but the size depends on the planner's assumptions. <b>Evidenced</b> means it rests on public, observable facts. <b>Hypothesis</b> means a test will decide it. In a live engagement each would carry an owner and a status.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Actions</div><div class="tv ">10</div><div class="ts">in three tiers</div></div><div class="tile"><div class="tl">Illustrative uplift</div><div class="tv "><span id="ks-uplift">$1.3M</span></div><div class="ts">in-year contribution, year one</div></div><div class="tile"><div class="tl">Tests</div><div class="tv ">3</div><div class="ts">A, B and C</div></div><div class="tile"><div class="tl">Decisions requested</div><div class="tv ">3</div><div class="ts">by mid-October</div></div></div>
+
 
   <div id="act-list">
     <div class="act"><div class="act-h"><span class="n">01</span><h3>Adopt a marginal-return rule for the paid budget</h3><span class="meta">Reallocate · Modelled</span></div>
@@ -856,7 +932,9 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     </table></div>
   </div>
 
-  <h2 style="margin-top:44px">Sizing the plan</h2>
+  
+  <div class="card"><h2>Roadmap</h2><p class="note" style="margin-top:0">Weeks from 5 October 2026. Gold bars are tests; teal bars are builds and changes.</p><div id="dd-gantt"></div></div>
+<h2 style="margin-top:44px">Sizing the plan</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Value by action</h3><figure><figcaption>Illustrative in-year contribution, $M <span class="tag mod">Model</span></figcaption><div id="x-ac1"></div></figure><p class="note">Reallocation is worth the most and costs nothing to implement.</p></div>
     <div class="card"><h3 style="margin-top:0">Value vs effort</h3><figure><figcaption>Each dot is an action, numbered as above <span class="tag mod">Model</span></figcaption><div id="x-ac2"></div></figure><p class="note">Top left is where to start: high value, low effort.</p></div>
@@ -871,6 +949,8 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <h1>What is real, what is modelled, and what we would need</h1>
     <p>This preview was built before any data access, from a call with the Redvanly team, public research and a calibrated synthetic model. That is enough to show the method and frame the decisions. It is not enough to make them.</p>
   </div>
+  <div class="tiles kstrip"><div class="tile"><div class="tl">Call figures</div><div class="tv "><span id="ks-call">0</span></div><div class="ts">stated by Redvanly</div></div><div class="tile"><div class="tl">Public figures</div><div class="tv "><span id="ks-pub">0</span></div><div class="ts">cited sources</div></div><div class="tile"><div class="tl">Model figures</div><div class="tv "><span id="ks-mod">0</span></div><div class="ts">replaced in week one</div></div><div class="tile"><div class="tl">Data requests</div><div class="tv ">5</div><div class="ts">areas, read-only</div></div></div>
+
 
   <div class="grid2">
     <div class="card">
@@ -917,7 +997,9 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
   </div>
 
   
-  <h2 style="margin-top:44px">What the numbers rest on</h2>
+  
+  <div class="card"><h2>How each metric is defined</h2><p class="note" style="margin-top:0">One reconciled definition per metric, agreed with finance in week one.</p><div class="tw" id="dd-defs"></div></div>
+<h2 style="margin-top:44px">What the numbers rest on</h2>
   <div class="grid3">
     <div class="card"><h3 style="margin-top:0">Figures by basis</h3><figure><figcaption>Count of tagged figures in this report </figcaption><div id="x-me1"></div></figure><p class="note">Most figures are modelled. Week one of an engagement replaces them with Redvanly data.</p></div>
     <div class="card"><h3 style="margin-top:0">Incrementality: the widest assumption</h3><figure><figcaption>Range tested per channel, factor <span class="tag mod">Model</span></figcaption><div id="x-me2"></div></figure><p class="note">CTV and non-brand search carry the most uncertainty in absolute terms.</p></div>
@@ -994,7 +1076,9 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
     <p style="margin-top:16px">Your target's data never leaves the walls. Your IC gets numbers it can stand behind. Live today — in production on pre-close diligence with private-markets investors, across consumer goods, consumer services and food &amp; beverage. Sample diligence files (pet-care CPG · multi-site consumer health services · beauty &amp; personal care carve-out) available on request.</p>
   </div>
 
-  <div class="cta">
+  
+  <div class="card" style="margin-top:36px"><h2>How a Redvanly engagement would run</h2><p class="note" style="margin-top:0">Ten business days from data access to readout.</p><div class="steps" id="dd-days"></div></div>
+<div class="cta">
     <div><div class="kick">creditswan.ai · Deal Intelligence for Private Equity</div><em>Decision-grade equity diligence. Every number carries a source. A flagged gap beats a guess.</em></div>
     <a class="pbtn primary" href="https://www.creditswan.ai/" target="_blank" rel="noopener" style="text-decoration:none">Request a sample diligence file</a>
   </div>
@@ -1002,60 +1086,7 @@ details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
 </section>
 
 </div>
-<script id="data" type="application/json">{
- "company":{"total_rev":50.0,"ecom_rev":19.0,"aov":220,"ltv":440,"gm":0.80,"cm":0.30,"net":0.20,"eff":0.45,"eff_ly":0.40},
- "pnl":[
-  {"l":"Net ecommerce revenue","v":19.00,"t":"rev","b":"call"},
-  {"l":"Cost of goods","v":-3.80,"b":"call","n":"80% gross margin"},
-  {"l":"Payment fees","v":-0.55,"g":"var","b":"mod","dim":1},
-  {"l":"Fulfilment and pick-pack","v":-1.14,"g":"var","b":"mod","dim":1},
-  {"l":"Outbound shipping subsidy","v":-0.76,"g":"var","b":"mod","dim":1},
-  {"l":"Returns handling and unrecovered product","v":-0.97,"g":"var","b":"mod","dim":1},
-  {"l":"Paid media","v":-4.60,"g":"paid","b":"mod","n":"sized to the 45% ratio"},
-  {"l":"Creators, affiliates and partners","v":-0.62,"g":"mkt","b":"mod","dim":1},
-  {"l":"Agency and creative production","v":-0.60,"g":"mkt","b":"mod","dim":1},
-  {"l":"Email, SMS and CRM platforms","v":-0.26,"g":"mkt","b":"mod","dim":1},
-  {"l":"Contribution","t":"contrib","b":"call"},
-  {"l":"Ecommerce team, tech stack, allocated overhead","v":-1.90,"g":"fixed","b":"mod","dim":1},
-  {"l":"Net","t":"net","b":"call"}
- ],
- "customers":{"new_per_year_k":47.0,"attributed_paid_cac":180,"consumer_aov":205,"b2b_share_orders":0.016,"b2b_aov":1150},
- "owned":{"email_sms_rev":2.05,"target_share":0.14,"incremental_share":0.5},
- "plan":{"budget":4.0},
- "channels":[
-  {"n":"Meta prospecting","s":1.70,"pr":2.3,"r":1.60,"k":0.70,"b":0.74,"ns":0.75,"lo":0.30,"hi":3.40,"c":"var(--s1)"},
-  {"n":"Meta retargeting","s":0.60,"pr":5.8,"r":3.20,"k":0.25,"b":0.40,"ns":0.15,"lo":0.15,"hi":1.20,"c":"var(--s2)"},
-  {"n":"Google brand search","s":0.55,"pr":9.1,"r":4.50,"k":0.15,"b":0.30,"ns":0.20,"lo":0.30,"hi":0.80,"c":"var(--s3)"},
-  {"n":"Google non-brand search","s":0.90,"pr":2.1,"r":1.60,"k":0.80,"b":0.72,"ns":0.70,"lo":0.20,"hi":1.80,"c":"var(--s4)"},
-  {"n":"Shopping / PMax","s":0.60,"pr":4.4,"r":2.40,"k":0.50,"b":0.55,"ns":0.45,"lo":0.20,"hi":1.20,"c":"var(--s5)"},
-  {"n":"CTV / YouTube","s":0.25,"pr":1.9,"r":0.80,"k":2.00,"b":0.70,"ns":0.80,"lo":0.00,"hi":0.75,"c":"var(--ink)"}
- ],
- "quarters":{"labels":["Q1 25","Q2 25","Q3 25","Q4 25","Q1 26","Q2 26","Q3 26"],"eff":[38,40,41,36,44,47,45]},
- "direct_mix":[{"l":"B2B and omnichannel account orders","v":1.1,"c":"n"},{"l":"Existing customers returning","v":1.4},{"l":"New customers, first touch elsewhere","v":0.8,"c":"g"}],
- "feb":{"labels":["5 JAN","19 JAN","2 FEB","16 FEB","2 MAR","16 MAR","30 MAR"],"spend":[33,34,32,33,34,20,20,20,33,34,33,35,34,34],"index":[100,101,99,100,101,100,94,91,92,97,100,101,100,102]},
- "funnel":{"steps":[["Add to cart",8.8,5.4],["Checkout",5.4,2.6],["Order",3.13,1.10]],"visitors":[["New visitors · H1 2025",1.12,"n"],["New visitors · H1 2026",0.95,"c"],["Returning · H1 2025",3.70,"n"],["Returning · H1 2026",3.60,""]]},
- "email":{"quarters":[["Q1",400,350],["Q2",460,380],["Q3",420,360],["Q4",580,null]],"bench_lo":0.20,"bench_hi":0.30},
- "repeat":[["Bottoms",34,""],["Polos and tops",24,"n"],["Layers",21,"n"],["Licensed and team",12,"n"],["Gift purchase",9,"n"]],
- "extra":{
-  "months":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-  "rev25":[0.92,0.98,1.28,1.52,1.71,1.66,1.49,1.34,1.22,1.18,1.63,2.07],
-  "rev26":[1.02,1.07,1.36,1.63,1.84,1.79,1.61,1.47],
-  "cacq":{"labels":["Q1 25","Q2 25","Q3 25","Q4 25","Q1 26","Q2 26","Q3 26"],"blended":[112,115,118,110,124,131,129],"incr":[262,276,288,258,318,344,335]},
-  "ltvcurve":{"m":[0,3,6,12,18,24,36],"rev":[220,262,290,330,370,405,440]},
-  "cpm":{"m":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"y25":[100,97,103,106,108,104,101,103],"y26":[113,112,119,124,126,121,118,120]},
-  "directq":{"labels":["Q1 25","Q2 25","Q3 25","Q4 25","Q1 26","Q2 26","Q3 26"],"paid":[100,112,108,131,114,128,121],"direct":[100,104,116,112,128,121,133]},
-  "survey":[["Friend or word of mouth",24],["Golf course or pro shop",19],["Instagram or Facebook",18],["Google search",12],["Store or stockist",10],["Creator or podcast",7],["Club partnership",5],["Other",5]],
-  "power":{"w":[2,3,4,5,6,7,8,9,10],"mde":[14.0,10.4,8.2,7.1,6.3,5.8,5.3,5.0,4.7]},
-  "landing":[["Product page · search",2.6],["Homepage",2.3],["Collection page",1.9],["Fabric guide / blog",1.2],["Product page · paid social",0.9]],
-  "exit":[["Shipping cost",31],["Return fee or policy",22],["Unsure of size",19],["Just browsing",15],["Price",9],["Other",4]],
-  "devcvr":{"m":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"desk":[3.0,3.1,3.0,3.2,3.2,3.1,3.1,3.2],"mob":[1.08,1.10,0.96,1.12,1.14,1.12,1.10,1.12]},
-  "subs":{"m":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"y25":[5.4,5.6,6.1,6.6,6.8,6.4,6.1,5.9],"y26":[5.6,4.6,4.5,4.9,5.0,4.8,4.6,4.5]},
-  "flows":{"labels":["Q1 25","Q2 25","Q3 25","Q4 25","Q1 26","Q2 26","Q3 26"],"flows":[118,130,126,150,112,118,114],"camp":[282,330,294,430,238,262,246]},
-  "repeat":{"m":[0,1,2,3,4,5,6,8,10,12],"c24":[0,4,8,12,15,17,19,23,27,30],"c25":[0,3,6,9,12,14,16,21,25,29]},
-  "actions":[["1 Marginal-return rule",0,1],["2 Reallocate to $4.0M",0.53,1],["3 Returns and shipping terms",0.22,1],["4 Brand-search test",0.05,2],["5 Retargeting lift test",0.04,2],["6 Geo holdout",0.0,4],["7 Email rebuild",0.19,3],["8 Mobile fit and overlays",0.28,4],["9 B2B order tagging",0.0,2],["10 Contribution dashboard",0.0,3]],
-  "ramp":{"m":["Oct","Nov","Dec","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep"],"v":[0.04,0.10,0.19,0.27,0.35,0.44,0.56,0.69,0.82,0.94,1.05,1.15]}
- }
-}</script>
+<script id="data" type="application/json">{"company": {"total_rev": 50.0, "ecom_rev": 19.0, "aov": 220, "ltv": 440, "gm": 0.8, "cm": 0.3, "net": 0.2, "eff": 0.45, "eff_ly": 0.4}, "pnl": [{"l": "Net ecommerce revenue", "v": 19.0, "t": "rev", "b": "call"}, {"l": "Cost of goods", "v": -3.8, "b": "call", "n": "80% gross margin"}, {"l": "Payment fees", "v": -0.55, "g": "var", "b": "mod", "dim": 1}, {"l": "Fulfilment and pick-pack", "v": -1.14, "g": "var", "b": "mod", "dim": 1}, {"l": "Outbound shipping subsidy", "v": -0.76, "g": "var", "b": "mod", "dim": 1}, {"l": "Returns handling and unrecovered product", "v": -0.97, "g": "var", "b": "mod", "dim": 1}, {"l": "Paid media", "v": -4.6, "g": "paid", "b": "mod", "n": "sized to the 45% ratio"}, {"l": "Creators, affiliates and partners", "v": -0.62, "g": "mkt", "b": "mod", "dim": 1}, {"l": "Agency and creative production", "v": -0.6, "g": "mkt", "b": "mod", "dim": 1}, {"l": "Email, SMS and CRM platforms", "v": -0.26, "g": "mkt", "b": "mod", "dim": 1}, {"l": "Contribution", "t": "contrib", "b": "call"}, {"l": "Ecommerce team, tech stack, allocated overhead", "v": -1.9, "g": "fixed", "b": "mod", "dim": 1}, {"l": "Net", "t": "net", "b": "call"}], "customers": {"new_per_year_k": 47.0, "attributed_paid_cac": 180, "consumer_aov": 205, "b2b_share_orders": 0.016, "b2b_aov": 1150}, "owned": {"email_sms_rev": 2.05, "target_share": 0.14, "incremental_share": 0.5}, "plan": {"budget": 4.0}, "channels": [{"n": "Meta prospecting", "s": 1.7, "pr": 2.3, "r": 1.6, "k": 0.7, "b": 0.74, "ns": 0.75, "lo": 0.3, "hi": 3.4, "c": "var(--s1)"}, {"n": "Meta retargeting", "s": 0.6, "pr": 5.8, "r": 3.2, "k": 0.25, "b": 0.4, "ns": 0.15, "lo": 0.15, "hi": 1.2, "c": "var(--s2)"}, {"n": "Google brand search", "s": 0.55, "pr": 9.1, "r": 4.5, "k": 0.15, "b": 0.3, "ns": 0.2, "lo": 0.3, "hi": 0.8, "c": "var(--s3)"}, {"n": "Google non-brand search", "s": 0.9, "pr": 2.1, "r": 1.6, "k": 0.8, "b": 0.72, "ns": 0.7, "lo": 0.2, "hi": 1.8, "c": "var(--s4)"}, {"n": "Shopping / PMax", "s": 0.6, "pr": 4.4, "r": 2.4, "k": 0.5, "b": 0.55, "ns": 0.45, "lo": 0.2, "hi": 1.2, "c": "var(--s5)"}, {"n": "CTV / YouTube", "s": 0.25, "pr": 1.9, "r": 0.8, "k": 2.0, "b": 0.7, "ns": 0.8, "lo": 0.0, "hi": 0.75, "c": "var(--ink)"}], "quarters": {"labels": ["Q1 25", "Q2 25", "Q3 25", "Q4 25", "Q1 26", "Q2 26", "Q3 26"], "eff": [38, 40, 41, 36, 44, 47, 45]}, "direct_mix": [{"l": "B2B and omnichannel account orders", "v": 1.1, "c": "n"}, {"l": "Existing customers returning", "v": 1.4}, {"l": "New customers, first touch elsewhere", "v": 0.8, "c": "g"}], "feb": {"labels": ["5 JAN", "19 JAN", "2 FEB", "16 FEB", "2 MAR", "16 MAR", "30 MAR"], "spend": [33, 34, 32, 33, 34, 20, 20, 20, 33, 34, 33, 35, 34, 34], "index": [100, 101, 99, 100, 101, 100, 94, 91, 92, 97, 100, 101, 100, 102]}, "funnel": {"steps": [["Add to cart", 8.8, 5.4], ["Checkout", 5.4, 2.6], ["Order", 3.13, 1.1]], "visitors": [["New visitors · H1 2025", 1.12, "n"], ["New visitors · H1 2026", 0.95, "c"], ["Returning · H1 2025", 3.7, "n"], ["Returning · H1 2026", 3.6, ""]]}, "email": {"quarters": [["Q1", 400, 350], ["Q2", 460, 380], ["Q3", 420, 360], ["Q4", 580, null]], "bench_lo": 0.2, "bench_hi": 0.3}, "repeat": [["Bottoms", 34, ""], ["Polos and tops", 24, "n"], ["Layers", 21, "n"], ["Licensed and team", 12, "n"], ["Gift purchase", 9, "n"]], "extra": {"months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], "rev25": [0.92, 0.98, 1.28, 1.52, 1.71, 1.66, 1.49, 1.34, 1.22, 1.18, 1.63, 2.07], "rev26": [1.02, 1.07, 1.36, 1.63, 1.84, 1.79, 1.61, 1.47], "cacq": {"labels": ["Q1 25", "Q2 25", "Q3 25", "Q4 25", "Q1 26", "Q2 26", "Q3 26"], "blended": [112, 115, 118, 110, 124, 131, 129], "incr": [262, 276, 288, 258, 318, 344, 335]}, "ltvcurve": {"m": [0, 3, 6, 12, 18, 24, 36], "rev": [220, 262, 290, 330, 370, 405, 440]}, "cpm": {"m": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"], "y25": [100, 97, 103, 106, 108, 104, 101, 103], "y26": [113, 112, 119, 124, 126, 121, 118, 120]}, "directq": {"labels": ["Q1 25", "Q2 25", "Q3 25", "Q4 25", "Q1 26", "Q2 26", "Q3 26"], "paid": [100, 112, 108, 131, 114, 128, 121], "direct": [100, 104, 116, 112, 128, 121, 133]}, "survey": [["Friend or word of mouth", 24], ["Golf course or pro shop", 19], ["Instagram or Facebook", 18], ["Google search", 12], ["Store or stockist", 10], ["Creator or podcast", 7], ["Club partnership", 5], ["Other", 5]], "power": {"w": [2, 3, 4, 5, 6, 7, 8, 9, 10], "mde": [14.0, 10.4, 8.2, 7.1, 6.3, 5.8, 5.3, 5.0, 4.7]}, "landing": [["Product page · search", 2.6], ["Homepage", 2.3], ["Collection page", 1.9], ["Fabric guide / blog", 1.2], ["Product page · paid social", 0.9]], "exit": [["Shipping cost", 31], ["Return fee or policy", 22], ["Unsure of size", 19], ["Just browsing", 15], ["Price", 9], ["Other", 4]], "devcvr": {"m": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"], "desk": [3.0, 3.1, 3.0, 3.2, 3.2, 3.1, 3.1, 3.2], "mob": [1.08, 1.1, 0.96, 1.12, 1.14, 1.12, 1.1, 1.12]}, "subs": {"m": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"], "y25": [5.4, 5.6, 6.1, 6.6, 6.8, 6.4, 6.1, 5.9], "y26": [5.6, 4.6, 4.5, 4.9, 5.0, 4.8, 4.6, 4.5]}, "flows": {"labels": ["Q1 25", "Q2 25", "Q3 25", "Q4 25", "Q1 26", "Q2 26", "Q3 26"], "flows": [118, 130, 126, 150, 112, 118, 114], "camp": [282, 330, 294, 430, 238, 262, 246]}, "repeat": {"m": [0, 1, 2, 3, 4, 5, 6, 8, 10, 12], "c24": [0, 4, 8, 12, 15, 17, 19, 23, 27, 30], "c25": [0, 3, 6, 9, 12, 14, 16, 21, 25, 29]}, "actions": [["1 Marginal-return rule", 0, 1], ["2 Reallocate to $4.0M", 0.53, 1], ["3 Returns and shipping terms", 0.22, 1], ["4 Brand-search test", 0.05, 2], ["5 Retargeting lift test", 0.04, 2], ["6 Geo holdout", 0.0, 4], ["7 Email rebuild", 0.19, 3], ["8 Mobile fit and overlays", 0.28, 4], ["9 B2B order tagging", 0.0, 2], ["10 Contribution dashboard", 0.0, 3]], "ramp": {"m": ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"], "v": [0.04, 0.1, 0.19, 0.27, 0.35, 0.44, 0.56, 0.69, 0.82, 0.94, 1.05, 1.15]}}, "deep": {"cohorts": [["Q1 25", 10.2, 214, 15.1, 318, 38], ["Q2 25", 12.8, 221, 14.6, 322, 41], ["Q3 25", 11.9, 218, 14.2, 314, 40], ["Q4 25", 14.6, 232, 13.1, 305, 44], ["Q1 26", 10.9, 216, 13.4, null, 46], ["Q2 26", 12.4, 219, 12.8, null, 48]], "chops": [["Meta prospecting", "CPM $17.40", "0.92%", "0.9%", 210], ["Meta retargeting", "CPM $24.10", "1.45%", "3.1%", 95], ["Google brand search", "CPC $0.62", "18.5%", "6.2%", 60], ["Google non-brand search", "CPC $1.48", "3.1%", "1.8%", 165], ["Shopping / PMax", "CPC $0.91", "1.2%", "2.4%", 120], ["CTV / YouTube", "CPM $32.00", "91% VCR", "—", null]], "creative": [["Pull-on demonstration video", 0.46, 2.1, "Scale"], ["Golf-to-everyday lifestyle", 0.34, 1.4, "Hold"], ["Discount offer", 0.22, 1.9, "Cut: lowest margin"], ["Customer review / UGC", 0.18, 1.7, "Test more"], ["Team and licensed product", 0.1, 1.1, "Cut"]], "match": [["Markets", "31", "93"], ["Share of ecom revenue", "24.6%", "75.4%"], ["Share of sessions", "25.2%", "74.8%"], ["Weekly revenue correlation, pre-period", "0.94", "—"], ["Stockists per 1M people", "9.8", "10.1"], ["Share of B2B account orders", "23%", "77%"]], "tests": [["A · Brand-search pause", 1, 4, "g"], ["B · Retargeting lift", 2, 7, "g"], ["Reallocation live", 1, 26, "t"], ["Holiday peak (no tests)", 8, 13, "n"], ["C · Prospecting + CTV holdout", 14, 22, "g"], ["Read-out and 2027 budget", 22, 25, "t"]], "heat": {"rows": ["Paid social", "Paid search", "Organic search", "Direct", "Email / SMS", "Referral / partner"], "share": [31, 17, 15, 19, 11, 7], "desk": [1.6, 3.4, 3.1, 4.2, 4.8, 2.6], "mob": [0.6, 1.6, 1.4, 1.9, 2.4, 1.2]}, "pdp": [["Opened size guide", "22%", "ATC 11.8% vs 6.1% without"], ["Played product video", "14%", "ATC 10.2%"], ["Scrolled to reviews", "38%", "ATC 8.9%"], ["Changed inseam or colour", "29%", "ATC 9.4%"], ["Left within 10 seconds", "41%", "mostly paid social"]], "flows": [["Welcome series", "Live", "$0.42", "$0.60–0.90", "Add pull-on education; branch by sport"], ["Abandoned checkout", "Live", "$2.10", "$3.00+", "State return terms; add fit reassurance"], ["Browse abandonment", "Weak", "$0.18", "$0.30", "Two touches, product-specific"], ["Post-purchase fit and care", "Missing", "—", "$0.25", "Build: reduces returns, drives reviews"], ["Second-category cross-sell", "Missing", "—", "$0.35", "Build: bottoms buyers to polos and layers"], ["Win-back", "Weak", "$0.09", "$0.15", "Replace discount-only with new arrivals"], ["Back in stock", "Live", "$1.40", "$1.20", "Keep"], ["Sunset unengaged", "Missing", "—", "deliverability", "Build: protects inbox placement"]], "gantt": [["1 Marginal-return rule", 0, 26, "t"], ["2 Reallocate to plan", 1, 26, "t"], ["3 Returns and shipping terms", 0, 3, "t"], ["4 Test A · brand search", 1, 4, "g"], ["5 Test B · retargeting", 2, 7, "g"], ["6 Test C · geo holdout", 13, 21, "g"], ["7 Email rebuild", 3, 12, "t"], ["8 Mobile fit and overlays", 4, 14, "t"], ["9 B2B order tagging", 1, 5, "t"], ["10 Contribution dashboard", 2, 8, "t"]], "defs": [["Net merchandise sales", "Gross sales less discounts, cancellations and refunds, excluding tax. Shipping collected shown separately."], ["Contribution after acquisition", "Net sales plus shipping collected, less landed cost, payment fees, fulfilment, shipping, returns and acquisition spend."], ["Contribution per eligible session", "The main decision metric. Contribution divided by consistently defined sessions."], ["Net AOV", "Net merchandise sales ÷ original valid orders, on a return-mature cohort."], ["Blended CAC", "All acquisition spend ÷ all first-time customers."], ["Incremental CAC", "Incremental spend ÷ incremental new customers, established by testing."], ["Paid efficiency ratio", "Paid media ÷ paid-attributed revenue. Reported, never used alone to set budget."], ["Retention", "60, 90 and 180-day second-purchase rates on equal observation windows."]], "days": [["Days 1–2", "Align and reconcile", "Agree the decisions, get read-only access, reconcile orders, refunds and spend to finance."], ["Days 3–5", "Inspect", "Journeys, acquisition, lifecycle, merchandising and measurement, on Redvanly data."], ["Days 6–8", "Quantify", "Calibrate the planner, size each opportunity, separate verified issues from tests."], ["Days 9–10", "Decide", "Executive readout, owners and a budget the team can defend."]]}}</script>
 
 <script>
 (function(){
@@ -1128,6 +1159,8 @@ function lineChart(el,o){
   (o.series||[]).forEach(function(se){var d=se.pts.map(function(p,i){return (i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join(' ');
     if(se.area){var a0=Y(o.y[0]);s+='<path class="ar" d="'+d+' L'+X(se.pts[se.pts.length-1][0]).toFixed(1)+' '+a0+' L'+X(se.pts[0][0]).toFixed(1)+' '+a0+' Z" style="fill:'+se.color+';opacity:.12"/>';}
     s+='<path class="'+(se.dash?'lnd':'ln')+'" pathLength="1" d="'+d+'" style="fill:none;stroke:'+se.color+';stroke-width:'+(se.w||2)+(se.dash?';stroke-dasharray:'+se.dash:'')+'"/>';});
+  (o.series||[]).forEach(function(se){ if(se.dash&&se.pts.length<=2)return; se.pts.forEach(function(p,i){ if(se.pts.length>40&&i%3)return;
+    s+='<circle class="hit" cx="'+X(p[0]).toFixed(1)+'" cy="'+Y(p[1]).toFixed(1)+'" r="6" style="fill:'+se.color+'" data-tip="'+esc((o.fx?o.fx(p[0]):p[0])+' · '+(o.fy?o.fy(+p[1].toFixed(2)):p[1].toFixed(2)))+'"/>';});});
   (o.dots||[]).forEach(function(d){s+='<circle class="pt" cx="'+X(d.x)+'" cy="'+Y(d.y)+'" r="'+(d.r||4.5)+'" style="fill:'+d.color+';stroke:var(--plane);stroke-width:1.5"/>';
     if(d.label)s+='<text class="vl" x="'+(X(d.x)+(d.dx||0))+'" y="'+(Y(d.y)+(d.dy||-10))+'" text-anchor="'+(d.anchor||'middle')+'">'+d.label+'</text>';});
   el.innerHTML=s+'</svg>';
@@ -1138,7 +1171,7 @@ function barRows(el,rows,max,opts){
   el.innerHTML=rows.map(function(r){
     var w=Math.max(0,Math.min(1,r.v/max))*100;
     var mk=opts.mark!=null?'<span style="position:absolute;top:-3px;bottom:-3px;left:'+(opts.mark/max*100)+'%;width:1px;background:var(--ink)"></span>':'';
-    return '<div class="brow"><span class="lb">'+r.l+'</span><div class="btrack" style="position:relative;overflow:visible"><div class="bfill '+(r.c||'')+'" style="width:'+w+'%"></div>'+mk+'</div><span class="bv">'+r.t+'</span></div>';
+    return '<div class="brow" data-tip="'+esc(String(r.l).replace(/<[^>]+>/g,'')+' · '+r.t)+'"><span class="lb">'+r.l+'</span><div class="btrack" style="position:relative;overflow:visible"><div class="bfill '+(r.c||'')+'" style="width:'+w+'%"></div>'+mk+'</div><span class="bv">'+r.t+'</span></div>';
   }).join('')+(opts.markLabel?'<p class="mini" style="margin:6px 0 0">'+opts.markLabel+'</p>':'');
 }
 
@@ -1466,7 +1499,7 @@ function vbars(el,o){
   (o.yt||niceTicks(lo,hi,4)).forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Y(t)+3.5)+'" text-anchor="end">'+(o.fy?o.fy(t):t)+'</text>';});
   o.labels.forEach(function(lb,i){var x0=P.l+i*gw+(gw-bw*ns-(ns-1)*3)/2;
     o.series.forEach(function(se,k){var v=se.vals[i];if(v==null)return;var x=x0+k*(bw+3),y0=Y(Math.max(0,lo)),y1=Y(v);
-      s+='<rect class="bar" x="'+x.toFixed(1)+'" y="'+Math.min(y0,y1).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.abs(y0-y1).toFixed(1)+'" style="fill:'+(se.colors?se.colors[i]:se.color)+';animation-delay:'+(i*0.06+k*0.03).toFixed(2)+'s"/>';
+      s+='<rect class="bar" data-tip="'+esc(lb+' · '+(o.fy?o.fy(+v.toFixed(2)):v.toFixed(2)))+'" x="'+x.toFixed(1)+'" y="'+Math.min(y0,y1).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+Math.abs(y0-y1).toFixed(1)+'" style="fill:'+(se.colors?se.colors[i]:se.color)+';animation-delay:'+(i*0.06+k*0.03).toFixed(2)+'s"/>';
       if(o.fv)s+='<text class="vl" x="'+(x+bw/2).toFixed(1)+'" y="'+(Math.min(y0,y1)-4).toFixed(1)+'" text-anchor="middle" style="font-size:9.5px">'+o.fv(v)+'</text>';});
     s+='<text class="ax" x="'+(P.l+i*gw+gw/2).toFixed(1)+'" y="'+(H-10)+'" text-anchor="middle">'+lb+'</text>';});
   el.innerHTML=s+'<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(Math.max(0,lo))+'" y2="'+Y(Math.max(0,lo))+'"/></svg>';
@@ -1544,6 +1577,7 @@ lineChart($('x-em3'),{w:360,h:220,x:[0,12],y:[0,35],xt:[0,3,6,9,12],yt:[0,10,20,
     series:[{pts:pts,color:'var(--s1)',w:2.4,area:true}],dots:[{x:1.0,y:pts[4][1],color:'var(--ink)',label:'Base $'+pts[4][1].toFixed(1)+'M',dy:-12}]});})();
 // ---- planner extras (live)
 function plannerExtra(M,e,T){
+  scenTable(M,e);
   var d=st.sp.map(function(s,i){return Ri(M,i,s)-Ri(M,i,CH[i].s);});
   divRows($('x-pl1'),CH.map(function(c,i){return {l:c.n,v:d[i]*M.mult};}),function(v){return (v>=0?'+':'−')+'$'+Math.abs(v).toFixed(2);});
   vbars($('x-pl2'),{labels:['META P','META R','BRAND','NON-BR','PMAX','CTV'],series:[{vals:st.sp,color:'var(--s2)'},{vals:st.sp.map(function(s,i){return Ri(M,i,s)*M.mult;}),color:'var(--s1)'}],y:[0,3],yt:[0,1,2,3],fy:function(t){return '$'+t;},label:'Spend vs incremental revenue'});
@@ -1551,6 +1585,63 @@ function plannerExtra(M,e,T){
   lineChart($('x-pl3'),{w:360,h:220,x:[1.5,7.5],y:[0.15,0.45],xt:[2,3,4,5,6,7],yt:[0.15,0.25,0.35,0.45],fx:function(t){return '$'+t+'M';},fy:function(t){return Math.round(t*100)+'%';},label:'Contribution margin by budget',
     series:[{pts:F.map(function(p){return [p.B,p.contrib/p.rev];}),color:'var(--s2)',w:2.2}],dots:[{x:Math.min(7.5,Math.max(1.5,e.paid)),y:Math.max(0.15,Math.min(0.45,e.cmPct)),color:'var(--s1)',r:5.5,label:Math.round(e.cmPct*100)+'%',dy:-12}]});
 }
+
+/* ================= deep-dive tables ================= */
+var DP=D.deep;
+function tbl(head,rows,numCols){numCols=numCols||[];return '<table><thead><tr>'+head.map(function(h,i){return '<th'+(numCols.indexOf(i)>-1?' class="num"':'')+'>'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.map(function(r){return '<tr'+(r.cls?' class="'+r.cls+'"':'')+'>'+r.c.map(function(c,i){return '<td'+(numCols.indexOf(i)>-1?' class="num"':'')+'>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';}
+function chip(t){var c=t==='Live'||t==='Scale'?'v-scale':(t==='Missing'||t.indexOf('Cut')===0?'v-cut':(t==='Weak'||t==='Hold'?'v-hold':'v-test'));return '<span class="verdict '+c+'">'+t+'</span>';}
+(function(){
+  var orders=REV0*1e6/AOV, per=function(v){return v*1e6/orders;};
+  var lines=[['Average order value',AOV,'tot']].concat(PNL.filter(function(r){return r.v!=null&&r.t!=='rev';}).map(function(r){return [r.l,per(r.v),r.dim?'dim':''];}));
+  var run=0, rows=[];
+  lines.forEach(function(l,i){ if(i===0){run=l[1];} else run+=l[1];
+    rows.push({c:[l[0],(l[1]<0?'('+Math.abs(l[1]).toFixed(2)+')':'$'+l[1].toFixed(2))],cls:l[2]});
+    if(l[0]==='Email, SMS and CRM platforms') rows.push({c:['Contribution per order','$'+run.toFixed(2)],cls:'tot'});
+  });
+  rows.push({c:['Net per order','$'+run.toFixed(2)],cls:'tot'});
+  $('dd-order').innerHTML=tbl(['Per order','$'],rows,[1]);
+  var cpo=(REV0+pnlSum('var')*0-VARC+PNL[1].v+pnlSum('paid')+pnlSum('mkt'))*1e6/orders;
+  $('ks-orders').textContent=(orders/1000).toFixed(1)+'K'; $('ks-cpo').textContent='$'+Math.round(K.contrib*1e6/orders); $('ks-mpo').textContent='$'+Math.round(K.totMkt*1e6/orders);
+  $('dd-cohort').innerHTML=tbl(['Cohort','New K','AOV','90-day','12-mo rev','Paid %'],DP.cohorts.map(function(r){return {c:[r[0],r[1].toFixed(1),'$'+r[2],r[3].toFixed(1)+'%',r[4]==null?'<span class="dim">maturing</span>':'$'+r[4],r[5]+'%']};}),[1,2,3,4,5]);
+  var tot=PAID0;
+  $('dd-chops').innerHTML=tbl(['Channel','Cost','CTR','CVR','Attr. CAC','Share of spend'],DP.chops.map(function(r,i){return {c:[r[0],r[1],r[2],r[3],r[4]==null?'—':'$'+r[4],Math.round(CH[i].s/tot*100)+'%']};}),[1,2,3,4,5]);
+  $('dd-creative').innerHTML=tbl(['Creative theme','Share','Attr. ROAS','Call'],DP.creative.map(function(r){return {c:[r[0],Math.round(r[1]*100)+'%',r[2].toFixed(1)+'×',chip(r[3])]};}),[1,2]);
+  $('dd-match').innerHTML=tbl(['Measure','Test group','Control'],DP.match.map(function(r){return {c:r};}),[1,2]);
+  gantt($('dd-testcal'),DP.tests,26,['OCT','NOV','DEC','JAN','FEB','MAR']);
+  // heatmap
+  var H=DP.heat, mx=5, cell=function(v){var a=0.08+0.85*(v/mx);return '<td class="hm" style="background:rgba(28,74,69,'+a.toFixed(2)+');color:'+(a>0.5?'var(--cs-cream)':'var(--ink)')+'" data-tip="'+v.toFixed(1)+'% order rate">'+v.toFixed(1)+'%</td>';};
+  $('dd-heat').innerHTML='<div class="tw"><table class="heat"><thead><tr><th>Source</th><th class="num">Sessions</th><th class="num">Desktop</th><th class="num">Mobile</th></tr></thead><tbody>'+H.rows.map(function(r,i){return '<tr><td>'+r+'</td><td class="num">'+H.share[i]+'%</td>'+cell(H.desk[i])+cell(H.mob[i])+'</tr>';}).join('')+'</tbody></table></div>';
+  $('dd-pdp').innerHTML=tbl(['Behaviour','Sessions','What follows'],DP.pdp.map(function(r){return {c:[r[0],'<span class="mono">'+r[1]+'</span>',r[2]]};}));
+  $('dd-flows').innerHTML=tbl(['Flow','Status','Rev / recipient','Benchmark','Next step'],DP.flows.map(function(r){return {c:['<b>'+r[0]+'</b>',chip(r[1]),r[2],r[3],r[4]]};}),[2,3]);
+  gantt($('dd-gantt'),DP.gantt,26,['OCT','NOV','DEC','JAN','FEB','MAR']);
+  $('dd-defs').innerHTML=tbl(['Metric','Definition'],DP.defs.map(function(r){return {c:['<b>'+r[0]+'</b>',r[1]]};}));
+  $('dd-days').innerHTML=DP.days.map(function(d){return '<div class="step"><div class="sn">'+d[0]+'</div><h3>'+d[1]+'</h3><p>'+d[2]+'</p></div>';}).join('');
+  var c=function(s){return document.querySelectorAll('.tag.'+s).length;}; $('ks-call').textContent=c('call'); $('ks-pub').textContent=c('pub'); $('ks-mod').textContent=c('mod');
+  var up=X.actions.reduce(function(a,r,i){return a+(i===1?K.recDC:r[1]);},0); $('ks-uplift').textContent='$'+up.toFixed(1)+'M';
+})();
+function gantt(el,rows,weeks,months){
+  var W=720,rh=26,P={l:190,r:10,t:26,b:8},H=P.t+rows.length*rh+P.b,cw=(W-P.l-P.r)/weeks;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Timeline">';
+  months.forEach(function(mn,i){var x=P.l+i*(weeks/months.length)*cw;s+='<line class="gl" x1="'+x+'" x2="'+x+'" y1="'+(P.t-6)+'" y2="'+(H-P.b)+'"/><text class="ax" x="'+(x+4)+'" y="'+(P.t-10)+'">'+mn+'</text>';});
+  rows.forEach(function(r,i){var y=P.t+i*rh, col=r[3]==='g'?'var(--s1)':(r[3]==='n'?'var(--s5)':'var(--s2)');
+    s+='<text class="sl" x="0" y="'+(y+rh/2+4)+'">'+esc(r[0])+'</text>';
+    s+='<rect class="bar hbar" data-tip="'+esc(r[0]+' · weeks '+(r[1]+1)+'–'+r[2])+'" x="'+(P.l+r[1]*cw).toFixed(1)+'" y="'+(y+6)+'" width="'+((r[2]-r[1])*cw).toFixed(1)+'" height="'+(rh-12)+'" rx="2" style="fill:'+col+';animation-delay:'+(i*0.05).toFixed(2)+'s"/>';});
+  el.innerHTML='<div class="tw">'+s+'</svg></div>';
+}
+function scenTable(M,e){
+  var key=JSON.stringify(st.lv); if(scenTable.key!==key){scenTable.key=key; scenTable.c=[optimise(M,K.recB),optimise(M,PAID0),profitMax(M).sp];}
+  var sc=[['Today',today],['Recommended',scenTable.c[0]],['Same budget, reallocated',scenTable.c[1]],['Profit-maximising',scenTable.c[2]],['Cut every channel 25%',today.map(function(v){return v*0.75;})],['Your plan',st.sp]];
+  var best=null;
+  var rows=sc.map(function(r){var x=evalPlan(M,r[1]);return {n:r[0],x:x};});
+  var mine=rows[rows.length-1].x;
+  $('dd-scen').innerHTML=tbl(['Scenario','Paid','Revenue','In-year contribution','Margin','Lifetime contribution','New customers','Blended CAC'],rows.map(function(r){var x=r.x;return {cls:r.n==='Your plan'?'hl':'',c:['<b>'+r.n+'</b>',m(x.paid),m(x.rev),m(x.contrib),pct(x.cmPct),m(x.lt),x.newc.toFixed(1)+'K','$'+Math.round(x.cac)]};}),[1,2,3,4,5,6,7]);
+}
+/* tooltip */
+(function(){var tip=document.createElement('div');tip.className='cs-tip';document.body.appendChild(tip);
+  document.addEventListener('mouseover',function(e){var t=e.target.closest&&e.target.closest('[data-tip]');if(!t)return;tip.textContent=t.getAttribute('data-tip');tip.classList.add('on');});
+  document.addEventListener('mousemove',function(e){if(!tip.classList.contains('on'))return;var x=e.clientX+14,y=e.clientY+16;if(x+tip.offsetWidth>innerWidth-8)x=e.clientX-tip.offsetWidth-14;if(y+tip.offsetHeight>innerHeight-8)y=e.clientY-tip.offsetHeight-14;tip.style.left=x+'px';tip.style.top=y+'px';});
+  document.addEventListener('mouseout',function(e){if(e.target.closest&&e.target.closest('[data-tip]'))tip.classList.remove('on');});
+})();
 setSp(rec); // open on the recommended plan
 if(location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
 else { var p0=document.querySelector('.panel.on'); if(p0){animatePanel(p0.id); p0.classList.add('anim');} }
