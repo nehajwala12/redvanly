@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="CreditSwan preview diagnostic of Redvanly ecommerce: spend planner, channel economics, funnel and email findings.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Redvanly Ecommerce Diagnostic</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --plane:#F4EFE6; --surface:#F4EFE6; --surface-2:#ECE5D7; --shell:#16211F; --shell-ink:#F4EFE6;
+  --ink:#16211F; --ink2:rgba(22,33,31,.78); --ink3:rgba(22,33,31,.64); --muted:rgba(22,33,31,.55);
+  --grid:rgba(22,33,31,.10); --border:rgba(22,33,31,.14); --rule:rgba(22,33,31,.30);
+  --gold:#A98543; --teal:#1C4A45; --pale:#E9C583; --crit:#5C2B2E; --neutral:#D9D1C1; --neutral-2:#E6DFD0;
+  --s1:#A98543; --s2:#1C4A45; --s3:#E9C583; --s4:rgba(22,33,31,.55); --s5:rgba(22,33,31,.30);
+  --good:#1C4A45; --warn:#A98543;
+  --accent-wash:rgba(233,197,131,.18); --good-wash:rgba(28,74,69,.07); --crit-wash:rgba(92,43,46,.07);
+  --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --plane:#16211F; --surface:#1B2725; --surface-2:#22302D; --shell:#0F1816; --shell-ink:#F4EFE6;
+    --ink:#F4EFE6; --ink2:rgba(244,239,230,.80); --ink3:rgba(244,239,230,.66); --muted:rgba(244,239,230,.55);
+    --grid:rgba(244,239,230,.10); --border:rgba(244,239,230,.18); --rule:rgba(244,239,230,.30);
+    --gold:#E9C583; --teal:#7FB0A7; --pale:#A98543; --crit:#FF8A80; --neutral:#3A4643; --neutral-2:#2A3633;
+    --s1:#E9C583; --s2:#7FB0A7; --s3:#A98543; --s4:rgba(244,239,230,.55); --s5:rgba(244,239,230,.30);
+    --good:#7FB0A7; --warn:#E9C583;
+    --accent-wash:rgba(233,197,131,.10); --good-wash:rgba(127,176,167,.10); --crit-wash:rgba(255,138,128,.08);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --plane:#16211F; --surface:#1B2725; --surface-2:#22302D; --shell:#0F1816; --shell-ink:#F4EFE6;
+  --ink:#F4EFE6; --ink2:rgba(244,239,230,.80); --ink3:rgba(244,239,230,.66); --muted:rgba(244,239,230,.55);
+  --grid:rgba(244,239,230,.10); --border:rgba(244,239,230,.18); --rule:rgba(244,239,230,.30);
+  --gold:#E9C583; --teal:#7FB0A7; --pale:#A98543; --crit:#FF8A80; --neutral:#3A4643; --neutral-2:#2A3633;
+  --s1:#E9C583; --s2:#7FB0A7; --s3:#A98543; --s4:rgba(244,239,230,.55); --s5:rgba(244,239,230,.30);
+  --good:#7FB0A7; --warn:#E9C583;
+  --accent-wash:rgba(233,197,131,.10); --good-wash:rgba(127,176,167,.10); --crit-wash:rgba(255,138,128,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--plane);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:24px}
+@media (max-width:520px){.wrap{padding-inline:16px}}
+b,strong{font-weight:700}
+a{color:inherit;text-decoration-color:var(--gold);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* shell */
+.shell{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--shell);color:var(--shell-ink)}
+.goldrule{height:4px;background:#A98543}
+.shell-top{max-width:1100px;margin:0 auto;padding:12px 24px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.mark svg{width:24px;height:24px}
+.mark b{font-family:var(--serif);font-size:21px;font-weight:600;letter-spacing:-.4px}
+.mark span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(244,239,230,.55)}
+.sp{flex:1}
+.ghost{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border-radius:4px;cursor:pointer;
+  border:1px solid rgba(244,239,230,.22);background:transparent;color:rgba(244,239,230,.8)}
+.ghost:hover{border-color:rgba(244,239,230,.5);color:#F4EFE6}
+.flag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#E9C583;border:1px solid rgba(233,197,131,.45);padding:5px 9px;border-radius:3px}
+.tabs{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:none;background:transparent;color:rgba(244,239,230,.55);cursor:pointer;font-family:var(--sans);font-size:13.5px;font-weight:500;
+  padding:12px 13px 11px;white-space:nowrap;border-bottom:2px solid transparent;display:flex;gap:7px;align-items:baseline}
+.tab:hover{color:rgba(244,239,230,.9)}
+.tab[aria-selected="true"]{color:#F4EFE6;border-bottom-color:#A98543}
+.tab .tn{font-family:var(--mono);font-size:10px;opacity:.55}
+@media (max-width:520px){.shell-top{padding-inline:16px}.tabs{padding-inline:8px}.mark span{display:none}}
+
+/* panels */
+.panel{display:none;padding-block:36px 100px}
+.panel.on{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.panel.on{animation:none}html{scroll-behavior:auto}}
+.phead{margin:0 0 26px;max-width:78ch}
+.kick,.lbl,.tl,caption,figcaption,th{font-family:var(--mono);text-transform:uppercase;letter-spacing:.12em}
+.kick{font-size:10.5px;color:var(--teal);font-weight:500}
+h1,h2,h3{font-family:var(--serif);font-weight:600;text-wrap:balance;color:var(--ink)}
+.phead h1{font-size:40px;letter-spacing:-1.1px;line-height:1.06;margin:8px 0 12px}
+.phead p{font-size:16px;color:var(--ink2);margin:0}
+h2{font-size:27px;letter-spacing:-.6px;line-height:1.15;margin:0 0 6px}
+h3{font-size:21px;letter-spacing:-.3px;line-height:1.2;margin:22px 0 6px}
+p{margin:0 0 12px}
+.card{border:1px solid var(--border);border-radius:4px;padding:26px;margin:18px 0;background:var(--surface)}
+.card > :last-child{margin-bottom:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px;margin:18px 0}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin:18px 0}
+.grid2 > .card,.grid3 > .card{margin:0}
+.lbl{font-size:10px;color:var(--teal);margin:20px 0 8px;font-weight:500}
+.lbl:first-child{margin-top:0}
+.note{font-size:12.5px;color:var(--ink3);line-height:1.55;margin:10px 0 0}
+.src{font-size:11.5px;color:var(--muted);margin:16px 0 0;padding-top:10px;border-top:1px solid var(--grid);line-height:1.5}
+.lead{font-size:16.5px;color:var(--ink2);max-width:72ch}
+.mono,.num,td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* basis tags */
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;border-radius:2px;vertical-align:2px;margin-left:4px;white-space:nowrap;border:1px solid}
+.tag.call{color:var(--teal);border-color:var(--teal)}
+.tag.pub{color:var(--ink3);border-color:var(--rule)}
+.tag.mod{color:var(--gold);border-color:var(--gold)}
+
+/* tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin:16px 0}
+.tile{background:var(--plane);padding:16px 18px}
+.tl{font-size:9.5px;color:var(--teal);line-height:1.35;font-weight:500}
+.tv{font-family:var(--mono);font-size:26px;font-weight:500;letter-spacing:-.5px;margin-top:6px;line-height:1.05;font-variant-numeric:tabular-nums}
+.ts{font-family:var(--mono);font-size:11px;color:var(--ink3);margin-top:5px;line-height:1.35}
+.up{color:var(--good)} .dn{color:var(--crit)}
+
+/* tables */
+.tw{overflow-x:auto;margin:8px 0 2px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-weight:500;color:var(--teal);font-size:9.5px;border-bottom:1px solid var(--rule);padding:8px 12px 8px 0;vertical-align:bottom;line-height:1.35}
+td{padding:9px 12px 9px 0;border-bottom:1px solid var(--grid);vertical-align:top;line-height:1.45}
+td.num,th.num{text-align:right;padding-right:0;padding-left:10px;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr.tot td{border-top:1px solid var(--rule);font-weight:700}
+caption{caption-side:top;text-align:left;font-size:9.5px;color:var(--muted);padding-bottom:6px}
+.dim{color:var(--muted)}
+
+/* charts */
+figure{margin:14px 0 4px}
+figcaption{font-size:9.5px;color:var(--muted);margin-bottom:10px;font-weight:500}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono)}
+.ax{font-size:10px;fill:var(--muted)}
+.vl{font-size:11px;fill:var(--ink);font-weight:500}
+.sl{font-size:11.5px;fill:var(--ink2);font-family:var(--sans)}
+.gl{stroke:var(--grid);stroke-width:1}
+.bl{stroke:var(--rule);stroke-width:1}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:10px 0 0;font-size:12px;color:var(--ink2)}
+.legend i{display:inline-block;width:14px;height:3px;margin-right:6px;vertical-align:3px}
+.legend i.dot{width:8px;height:8px;border-radius:50%;vertical-align:0}
+
+/* bar rows */
+.brow{display:grid;grid-template-columns:minmax(110px,34%) 1fr 64px;gap:12px;align-items:center;padding:5px 0;font-size:13.5px}
+.brow .lb{color:var(--ink2);line-height:1.3}
+.btrack{background:var(--neutral-2);border-radius:2px;height:12px;overflow:hidden}
+.bfill{height:100%;background:var(--s2)}
+.bfill.g{background:var(--s1)} .bfill.n{background:var(--neutral)} .bfill.c{background:var(--crit)}
+.brow .bv{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* callouts */
+.box{border-left:3px solid var(--rule);background:var(--surface-2);padding:14px 18px;border-radius:0 4px 4px 0;margin:16px 0;font-size:14px;color:var(--ink2)}
+.box.a{border-left-color:var(--gold);background:var(--accent-wash)}
+.box.g{border-left-color:var(--good);background:var(--good-wash)}
+.box.c{border-left-color:var(--crit);background:var(--crit-wash)}
+.box .bt{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:6px;font-weight:500}
+.box p:last-child{margin:0}
+
+/* conclusions */
+.concl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0;border-top:1px solid var(--border);margin:14px 0}
+.cn{padding:22px 22px 22px 0;border-bottom:1px solid var(--border)}
+.cn:nth-child(odd){padding-right:28px}
+.cn h3{margin:6px 0 8px;font-size:22px}
+.cn p{font-size:14px;color:var(--ink2)}
+.go{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);cursor:pointer;background:none;border:none;padding:0;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:4px}
+
+/* details Q&A */
+details{border-top:1px solid var(--grid);padding:10px 0}
+details:last-of-type{border-bottom:1px solid var(--grid)}
+summary{cursor:pointer;font-weight:500;font-size:14px;list-style:none;display:flex;gap:10px}
+summary::before{content:'+';font-family:var(--mono);color:var(--gold);width:12px;flex:none}
+details[open] summary::before{content:'–'}
+details > div{padding:8px 0 4px 22px;font-size:14px;color:var(--ink2)}
+
+/* planner */
+.planner{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.planner{grid-template-columns:1fr}}
+.ctrl{border:1px solid var(--border);border-radius:4px;padding:20px 22px;background:var(--surface)}
+.ctrl + .ctrl{margin-top:18px}
+.srow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:9px 0;border-bottom:1px solid var(--grid)}
+.srow:last-child{border-bottom:none}
+.srow label{font-size:13.5px;color:var(--ink);display:flex;gap:8px;align-items:center}
+.srow .val{font-family:var(--mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums}
+.srow .val small{display:block;font-size:10.5px;color:var(--muted)}
+.srow input[type=range]{grid-column:1 / -1;width:100%;accent-color:#A98543;margin:4px 0 0}
+.dotm{width:8px;height:8px;border-radius:50%;flex:none;display:inline-block}
+.seg{display:flex;border:1px solid var(--rule);border-radius:4px;overflow:hidden;grid-column:1 / -1;margin-top:6px}
+.seg button{flex:1;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:7px 4px;border:none;background:transparent;color:var(--ink2);cursor:pointer;border-right:1px solid var(--grid)}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--plane)}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.pbtn{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:9px 12px;border-radius:4px;border:1px solid var(--rule);background:transparent;color:var(--ink);cursor:pointer}
+.pbtn:hover{border-color:var(--ink)}
+.pbtn.primary{background:#A98543;border-color:#A98543;color:#16211F}
+.pbtn.primary:hover{background:#E9C583;border-color:#E9C583}
+.out{position:sticky;top:120px}
+@media (max-width:900px){.out{position:static}}
+.otiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+.otiles .tile{padding:14px 16px}
+.otiles .tv{font-size:23px}
+.otiles .tile.hero{grid-column:1 / -1;background:var(--accent-wash)}
+.otiles .tile.hero .tv{font-size:32px}
+.mini{font-size:11.5px;color:var(--muted);font-family:var(--mono)}
+.verdict{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap}
+.v-scale{background:var(--good-wash);color:var(--good);border:1px solid var(--good)}
+.v-hold{background:var(--accent-wash);color:var(--ink);border:1px solid var(--gold)}
+.v-cut{background:var(--crit-wash);color:var(--crit);border:1px solid var(--crit)}
+.v-test{color:var(--ink2);border:1px solid var(--rule)}
+
+/* actions */
+.act{border:1px solid var(--border);border-radius:4px;margin:10px 0;background:var(--surface)}
+.act-h{display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;padding:16px 20px;cursor:pointer}
+.act-h .n{font-family:var(--mono);font-size:13px;color:var(--gold)}
+.act-h h3{margin:0;font-size:19px}
+.act-h .meta{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right}
+.act-b{display:none;padding:0 20px 18px 70px;font-size:14px;color:var(--ink2)}
+.act.open .act-b{display:block}
+@media (max-width:600px){.act-h{grid-template-columns:28px 1fr}.act-h .meta{grid-column:2;text-align:left}.act-b{padding-left:20px}}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;margin-top:8px}
+.kv dt{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);padding-top:3px}
+.kv dd{margin:0}
+@media (max-width:520px){.kv{grid-template-columns:1fr}}
+.swanwm{position:absolute;right:-40px;top:-30px;width:260px;opacity:.05;pointer-events:none}
+.hero-wrap{position:relative;overflow:hidden}
+.foot{border-top:1px solid var(--border);margin-top:40px;padding-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="goldrule"></div>
+  <div class="shell-top">
+    <span class="mark"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M8 30c0-9 6-16 15-16 4 0 7 1 9 4-2-1-4-1-6 0 3 0 5 2 6 5-4-2-8-1-11 2-3 3-8 4-13 5z" fill="#F4EFE6"/><circle cx="30.5" cy="15.5" r="1.4" fill="#A98543"/></svg><b>CreditSwan</b> <span>Redvanly · Ecommerce diagnostic</span></span>
+    <span class="sp"></span>
+    <button class="ghost" id="theme" title="Switch light or dark">Theme</button>
+    <button class="ghost" id="expand">Expand all</button>
+    <span class="flag">Demonstration · illustrative data</span>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Report sections">
+    <button class="tab" role="tab" data-p="overview" aria-selected="true"><span class="tn">01</span>Overview</button>
+    <button class="tab" role="tab" data-p="economics" aria-selected="false"><span class="tn">02</span>Economics</button>
+    <button class="tab" role="tab" data-p="planner" aria-selected="false"><span class="tn">03</span>Spend planner</button>
+    <button class="tab" role="tab" data-p="channels" aria-selected="false"><span class="tn">04</span>Channels</button>
+    <button class="tab" role="tab" data-p="direct" aria-selected="false"><span class="tn">05</span>Direct vs paid</button>
+    <button class="tab" role="tab" data-p="funnel" aria-selected="false"><span class="tn">06</span>Funnel</button>
+    <button class="tab" role="tab" data-p="email" aria-selected="false"><span class="tn">07</span>Email &amp; retention</button>
+    <button class="tab" role="tab" data-p="actions" aria-selected="false"><span class="tn">08</span>Actions</button>
+    <button class="tab" role="tab" data-p="method" aria-selected="false"><span class="tn">09</span>Method</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ 01 OVERVIEW ============ -->
+<section class="panel on" id="overview">
+  <div class="hero-wrap">
+    <svg class="swanwm" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M8 30c0-9 6-16 15-16 4 0 7 1 9 4-2-1-4-1-6 0 3 0 5 2 6 5-4-2-8-1-11 2-3 3-8 4-13 5z" fill="currentColor"/></svg>
+    <div class="phead">
+      <div class="kick">creditswan.ai · Ecommerce diagnostic · Preview edition, September 2026</div>
+      <h1>How much should Redvanly spend on marketing? Less on paid, placed differently, and tested before the next step up.</h1>
+      <p>A preview of the diagnostic CreditSwan would run on Redvanly's $19M ecommerce business. It covers the budget question first, then the channel, funnel, email and measurement issues that decide it. Everything here is scoped to ecommerce, not the $50M total company.</p>
+    </div>
+  </div>
+
+  <div class="box a" style="margin-top:0"><span class="bt">How to read this preview</span>
+    <p style="color:var(--ink)">Each figure carries a basis tag. <span class="tag call">Call</span> figures come from our conversation with the Redvanly team. <span class="tag pub">Public</span> figures come from the storefront, published policies and industry sources. <span class="tag mod">Model</span> figures are synthetic, calibrated to the call figures so the whole picture adds up. In a live engagement every Model figure is replaced by Redvanly's own Shopify, analytics, ad-platform and email data in the first week. The conclusions show the method and the likely shape of the answer. They are not yet findings.</p>
+  </div>
+
+  <h2 style="margin-top:34px">The ecommerce business today</h2>
+  <p class="note" style="margin-top:0">Trailing twelve months, ecommerce only.</p>
+  <div class="tiles">
+    <div class="tile"><div class="tl">Ecom revenue <span class="tag call">Call</span></div><div class="tv">$19.0M</div><div class="ts">38% of $50M company</div></div>
+    <div class="tile"><div class="tl">AOV · LTV <span class="tag call">Call</span></div><div class="tv">$220 · $440</div><div class="ts">≈ 2.0 orders per customer</div></div>
+    <div class="tile"><div class="tl">Gross margin <span class="tag call">Call</span></div><div class="tv">80%</div><div class="ts">Before variable costs</div></div>
+    <div class="tile"><div class="tl">Contribution margin <span class="tag call">Call</span></div><div class="tv">30%</div><div class="ts">$5.7M after marketing</div></div>
+    <div class="tile"><div class="tl">Net margin <span class="tag call">Call</span></div><div class="tv">~20%</div><div class="ts">≈ $3.8M</div></div>
+    <div class="tile"><div class="tl">Paid efficiency ratio <span class="tag call">Call</span></div><div class="tv">45%</div><div class="ts dn">from ~40% a year ago <span class="tag mod">Model</span></div></div>
+  </div>
+
+  <h2 style="margin-top:40px">Six conclusions</h2>
+  <p class="note" style="margin-top:0">Each one links to the section that shows the working.</p>
+  <div class="concl">
+    <div class="cn">
+      <div class="kick">01 · Return on paid</div>
+      <h3>Paid media returns about $1.08 of lifetime contribution per dollar. At the margin, five of six channels return less than $1.</h3>
+      <p>Attributed revenue makes paid look comfortable: a 45% ratio against a 62% breakeven. Incremental revenue is roughly half of what platforms and analytics credit. Once future repeat orders are counted, the average dollar still clears breakeven. The last dollar in most channels does not.</p>
+      <figure><figcaption>Lifetime contribution from the next $1, by channel <span class="tag mod">Model</span></figcaption><div id="ov-marg"></div></figure>
+      <button class="go" data-go="channels">See channel economics →</button>
+    </div>
+    <div class="cn">
+      <div class="kick">02 · The budget answer</div>
+      <h3>A $4.0M paid budget, reallocated, does better than today's $4.6M in every incrementality case we tested.</h3>
+      <p>At $4.0M, revenue holds within 1% of today. In-year contribution rises by about $0.5M and contribution margin moves from 30% to 33%. The profit-maximising budget could be anywhere from $1.5M to $6.4M, depending on how incremental paid really is. That range is too wide to act on, so the next step is a holdout test, not a bigger cut.</p>
+      <figure><figcaption>Lifetime contribution by paid budget, best allocation at each level <span class="tag mod">Model</span></figcaption><div id="ov-front"></div></figure>
+      <button class="go" data-go="planner">Open the spend planner →</button>
+    </div>
+    <div class="cn">
+      <div class="kick">03 · Why efficiency got harder</div>
+      <h3>Efficiency slipped this year because new customers cost more. The site did not get worse.</h3>
+      <p>Meta CPMs rose an estimated 13–20% year over year across the market <span class="tag pub">Public</span>. In the model, new-visitor conversion falls from 1.12% to 0.95% while returning-visitor conversion holds. That pattern points to acquisition quality and landing experience more than the store itself.</p>
+      <button class="go" data-go="economics">See the economics →</button>
+    </div>
+    <div class="cn">
+      <div class="kick">04 · The direct-traffic thesis</div>
+      <h3>Direct traffic can replace some paid spend: brand search and retargeting. It cannot replace prospecting.</h3>
+      <p>About a third of "direct" revenue is likely B2B and omnichannel account orders. Some of the rest is demand that prospecting creates. In the February spend cut, direct and brand-search sessions fell 9% with a one-week lag <span class="tag mod">Model</span>. A page-level A/B test cannot answer this question. A geographic holdout can.</p>
+      <button class="go" data-go="direct">See the test design →</button>
+    </div>
+    <div class="cn">
+      <div class="kick">05 · Funnel</div>
+      <h3>The funnel leaks most at mobile cart-to-checkout, where delivery and return terms first become concrete.</h3>
+      <p>Mobile carries 71% of sessions but converts at about a third of the desktop rate. The steepest gap is cart to checkout: 48% on mobile against 61% on desktop <span class="tag mod">Model</span>. The product page promises free 30-day returns while the policy page charges a $9 return fee <span class="tag pub">Public</span>.</p>
+      <button class="go" data-go="funnel">See the funnel →</button>
+    </div>
+    <div class="cn">
+      <div class="kick">06 · Owned channels</div>
+      <h3>Email and SMS drive about 11% of ecommerce revenue. Comparable brands get 20–30%.</h3>
+      <p>Email revenue fell about 15% year over year <span class="tag mod">Model</span>, while the benchmark for DTC brands is 20–30% of revenue <span class="tag pub">Public</span>. Moving owned channels to 14% is worth about $0.6M in revenue at almost no media cost. That is the cheapest way to replace revenue given up by cutting paid.</p>
+      <button class="go" data-go="email">See email and retention →</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What we would recommend</h2>
+    <p class="note" style="margin-top:0">Ten actions in three tiers. Full detail is in Section 08.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Tier</th><th>What it covers</th><th class="num">Illustrative value</th></tr></thead>
+      <tbody>
+        <tr><td><b>Reallocate now</b><br><span class="dim">Actions 1–3</span></td><td>Set paid at a $4.0M run-rate on a marginal-return rule. Cut retargeting and brand search to defensive floors. Move part of the savings into non-brand search and a regional CTV test. Fix the returns and shipping message conflict.</td><td class="num">+$0.5M in-year contribution</td></tr>
+        <tr><td><b>Test next</b><br><span class="dim">Actions 4–6</span></td><td>Brand-search geo pause in October. Meta retargeting lift study. A prospecting and CTV geo holdout in January 2027 that tests the direct-traffic thesis head on.</td><td class="num">Settles a $1.5–6.4M budget range</td></tr>
+        <tr><td><b>Build</b><br><span class="dim">Actions 7–10</span></td><td>Rebuild email flows and list growth. Fix mobile checkout and fit guidance. Report B2B and omnichannel accounts separately. Run budget reviews on contribution per session.</td><td class="num">+$0.6–1.1M revenue</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h2>Three decisions we would ask for</h2>
+    <div class="tw"><table>
+      <tbody>
+        <tr><td class="mono" style="color:var(--gold);width:32px">1</td><td><b>Q4 paid run-rate.</b> Hold paid at a $4.0M annualised run-rate with the Section 04 reallocation, reviewed monthly against the marginal-return rule. No step-up before the holdout reads.</td></tr>
+        <tr><td class="mono" style="color:var(--gold)">2</td><td><b>Two tests.</b> Approve a three-week brand-search geo pause in October and a Meta prospecting and CTV geo holdout starting in the first week of January 2027.</td></tr>
+        <tr><td class="mono" style="color:var(--gold)">3</td><td><b>Budget KPIs.</b> Adopt contribution per session and incremental CAC as the budget metrics. Report B2B and omnichannel account orders apart from consumer ecommerce.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 02 ECONOMICS ============ -->
+<section class="panel" id="economics">
+  <div class="phead">
+    <div class="kick">Section 02 · Baseline and unit economics</div>
+    <h1>Where each ecommerce dollar goes</h1>
+    <p>The call figures fix the top and bottom of the P&amp;L. The lines in between are modelled so they reconcile. The engagement's first job is to replace them with Shopify and finance actuals.</p>
+  </div>
+
+  <div class="card">
+    <h2>From revenue to net margin</h2>
+    <figure><figcaption>Ecommerce P&amp;L, trailing twelve months, $M</figcaption><div id="ec-water"></div></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Line</th><th class="num">$M</th><th class="num">% of revenue</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>Net ecommerce revenue</td><td class="num">19.00</td><td class="num">100.0%</td><td><span class="tag call">Call</span></td></tr>
+        <tr><td>Cost of goods</td><td class="num">(3.80)</td><td class="num">20.0%</td><td><span class="tag call">Call</span> 80% gross margin</td></tr>
+        <tr><td class="dim">Payment fees</td><td class="num dim">(0.55)</td><td class="num dim">2.9%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td class="dim">Fulfilment and pick-pack</td><td class="num dim">(1.14)</td><td class="num dim">6.0%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td class="dim">Outbound shipping subsidy</td><td class="num dim">(0.76)</td><td class="num dim">4.0%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td class="dim">Returns handling and unrecovered product</td><td class="num dim">(0.97)</td><td class="num dim">5.1%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td>Paid media</td><td class="num">(4.60)</td><td class="num">24.2%</td><td><span class="tag mod">Model</span> sized to the 45% ratio</td></tr>
+        <tr><td class="dim">Creators, affiliates and partners</td><td class="num dim">(0.62)</td><td class="num dim">3.3%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td class="dim">Agency and creative production</td><td class="num dim">(0.60)</td><td class="num dim">3.2%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr><td class="dim">Email, SMS and CRM platforms</td><td class="num dim">(0.26)</td><td class="num dim">1.4%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr class="tot"><td>Contribution</td><td class="num">5.70</td><td class="num">30.0%</td><td><span class="tag call">Call</span></td></tr>
+        <tr><td class="dim">Ecommerce team, tech stack, allocated overhead</td><td class="num dim">(1.90)</td><td class="num dim">10.0%</td><td><span class="tag mod">Model</span></td></tr>
+        <tr class="tot"><td>Net</td><td class="num">3.80</td><td class="num">20.0%</td><td><span class="tag call">Call</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Marketing in total is $6.08M, or 32% of ecommerce revenue. Variable costs other than product are 18%, so each incremental revenue dollar keeps 62 cents before marketing. That 62% is the number every budget decision in this report turns on.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>What the 45% ratio hides</h2>
+      <p>We read the paid efficiency ratio as paid media spend divided by paid-attributed revenue: $4.6M against $10.2M, or about 2.2× attributed ROAS. With 62 cents kept per revenue dollar, attributed breakeven is a 62% ratio. On that view, 45% looks comfortable.</p>
+      <p>Attribution credits paid with roughly twice the revenue it actually causes. The model puts incremental revenue from paid at about $5.0M, a 91% ratio. That is well past breakeven on first orders. Paid pays back only when the repeat orders of the customers it acquires are counted.</p>
+      <div class="bars" id="ec-ratio"></div>
+      <p class="note">If Redvanly defines the ratio differently, for example against new-customer revenue only, the levels move but the gap between attributed and incremental does not. <span class="tag mod">Model</span></p>
+    </div>
+    <div class="card">
+      <h2>When efficiency got harder</h2>
+      <figure><figcaption>Paid efficiency ratio by quarter, spend ÷ attributed revenue <span class="tag mod">Model</span></figcaption><div id="ec-q"></div></figure>
+      <p class="note">The step change comes in Q1 2026, which matches what the team described on the call. Paid spend rose 14% year over year while attributed revenue grew 2%. Market-wide Meta CPMs rose 13–20% over the same period <span class="tag pub">Public</span>. Q4 always looks better because holiday demand lifts conversion on the same spend.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Unit economics per customer</h2>
+    <div class="tiles">
+      <div class="tile"><div class="tl">First-order contribution</div><div class="tv">$136</div><div class="ts">$220 × 62%</div></div>
+      <div class="tile"><div class="tl">Lifetime contribution</div><div class="tv">$273</div><div class="ts">$440 LTV × 62%</div></div>
+      <div class="tile"><div class="tl">Blended CAC <span class="tag mod">Model</span></div><div class="tv">$129</div><div class="ts">$6.08M ÷ 47.0K new</div></div>
+      <div class="tile"><div class="tl">Attributed paid CAC <span class="tag mod">Model</span></div><div class="tv">$180</div><div class="ts">as platforms report it</div></div>
+      <div class="tile"><div class="tl">Incremental paid CAC <span class="tag mod">Model</span></div><div class="tv dn">$336</div><div class="ts">$4.6M ÷ 13.7K truly new</div></div>
+      <div class="tile"><div class="tl">Consumer AOV ex-B2B <span class="tag mod">Model</span></div><div class="tv">$205</div><div class="ts">vs $220 reported</div></div>
+    </div>
+    <p>Blended, Redvanly pays back its acquisition cost on the first order. Counted only on customers paid media truly adds, the cost is $336 for a customer worth $273 over a lifetime. Paid clears breakeven overall only because it also nudges repeat orders from existing customers. That is exactly the revenue direct traffic might replace. This is why the budget question and the direct-traffic thesis are the same question.</p>
+    <details><summary>Why is reported AOV higher than consumer AOV?</summary><div>B2B and omnichannel accounts, such as clubs, corporate buyers and partner programmes, place some orders through the web store. In the model they are 1.6% of orders at about $1,150 each, $1.6M of revenue. They lift reported AOV from $205 to $220 and land mostly in "direct". The call flagged that attribution for these accounts is hard. The first fix is to tag them at checkout so consumer metrics are not distorted.</div></details>
+    <details><summary>Is $440 LTV revenue or margin, and over what horizon?</summary><div>We have treated $440 as lifetime revenue per customer, about two orders, and applied the 62% variable margin to get $273. If it is already a margin figure, or a 12-month figure, the planner's "Value of a new customer" control lets you see how the budget answer changes. The engagement would rebuild LTV from order-level cohorts with equal observation windows.</div></details>
+    <details><summary>Why use contribution rather than ROAS to set the budget?</summary><div>ROAS ignores returns, variable costs and whether the sale would have happened anyway. A budget set on contribution from the marginal dollar stops spending where the next dollar stops paying for itself. That rule works at any budget level and in any season.</div></details>
+  </div>
+</section>
+
+<!-- ============ 03 PLANNER ============ -->
+<section class="panel" id="planner">
+  <div class="phead">
+    <div class="kick">Section 03 · Interactive · Model</div>
+    <h1>Spend planner</h1>
+    <p>Set paid budget by channel and adjust the other levers. The panel on the right shows revenue, contribution and margin against today. The frontier chart shows the best result possible at every budget level, so you can see how far a plan sits from it.</p>
+  </div>
+
+  <div class="presets" role="group" aria-label="Scenarios">
+    <button class="pbtn" data-preset="today" id="pre-today">Today · $4.6M</button>
+    <button class="pbtn primary" data-preset="rec" id="pre-rec">Recommended · $4.0M reallocated</button>
+    <button class="pbtn" data-preset="realloc" id="pre-realloc">Same $4.6M, reallocated</button>
+    <button class="pbtn" data-preset="profit" id="pre-profit">Profit-maximising</button>
+    <button class="pbtn" data-preset="cut" id="pre-cut">Cut every channel 25%</button>
+  </div>
+
+  <div class="planner">
+    <div>
+      <div class="ctrl">
+        <div class="lbl">Paid budget by channel · annualised</div>
+        <div id="ch-sliders"></div>
+        <div class="srow" style="border-top:1px solid var(--rule);margin-top:4px"><label><b>Total paid</b></label><div class="val" id="tot-paid"></div></div>
+      </div>
+      <div class="ctrl">
+        <div class="lbl">Business levers</div>
+        <div id="lev-sliders"></div>
+      </div>
+      <div class="ctrl">
+        <div class="lbl">Assumptions the tests will settle</div>
+        <div class="srow"><label>How incremental is paid?</label><div class="val" id="inc-v"></div>
+          <div class="seg" id="seg-inc"><button data-v="0.7">Conservative</button><button data-v="1" aria-pressed="true">Base</button><button data-v="1.3">Generous</button></div></div>
+        <div class="srow"><label>Value of a new customer</label><div class="val" id="ltv-v"></div>
+          <div class="seg" id="seg-ltv"><button data-v="1">First order</button><button data-v="1.4">12 months</button><button data-v="2" aria-pressed="true">Lifetime ($440)</button></div></div>
+        <div id="halo-slider"></div>
+      </div>
+    </div>
+
+    <div class="out">
+      <div class="otiles" id="otiles"></div>
+      <figure style="margin-top:20px"><figcaption>Lifetime contribution vs paid budget, $M</figcaption><div id="pl-front"></div>
+        <div class="legend"><span><i style="background:var(--s1)"></i>Best allocation at each budget</span><span><i class="dot" style="background:var(--ink)"></i>Today</span><span><i class="dot" style="background:var(--s1)"></i>Your plan</span></div></figure>
+      <figure style="margin-top:14px"><figcaption>Revenue vs paid budget, best allocation, $M</figcaption><div id="pl-rev"></div></figure>
+      <figure style="margin-top:14px"><figcaption>Lifetime contribution from the next $1, your plan</figcaption><div id="pl-marg"></div></figure>
+      <p class="mini" id="pl-read"></p>
+      <p class="note">The paid efficiency ratio gets worse in the recommended plan even as profit improves. Brand search and retargeting carry the most attributed revenue and the least incremental revenue, so cutting them raises the ratio. That is the clearest reason to stop steering the budget on it.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:28px">
+    <h2>Sensitivity of your plan</h2>
+    <p class="note" style="margin-top:0">Change in in-year contribution when each lever moves, holding everything else at your current settings. Revenue change is shown beside each bar.</p>
+    <div id="tornado"></div>
+  </div>
+
+  <div class="card">
+    <h2>How the planner works</h2>
+    <p>Each channel has a diminishing-returns curve. Incremental revenue equals today's incremental revenue × (spend ÷ today's spend)<sup>b</sup>. Today's incremental revenue is attributed revenue × an incrementality factor, and <i>b</i> sets how quickly returns fall as spend rises. The revenue that does not depend on paid, from direct, organic, email, wholesale halo and existing customers, is held as a base. Contribution applies the gross margin and variable-cost rates, then subtracts paid media and $1.48M of other marketing. Lifetime contribution adds the future repeat orders of new customers acquired by paid.</p>
+    <p>The frontier fills each budget level channel by channel, $10K at a time, always putting the next increment where the next dollar earns most. Channel floors and caps apply: brand search keeps a defensive floor, and CTV is capped at $0.75M until a test supports more.</p>
+    <details><summary>Channel parameters used</summary><div><div class="tw" id="param-table"></div></div></details>
+    <details><summary>What the planner cannot tell you</summary><div>It cannot tell you the true incrementality of each channel. That is the largest uncertainty, and the reason the "How incremental is paid?" control exists. It also ignores seasonality within the year, creative fatigue, inventory limits and the effect of ecommerce spend on wholesale and store sales. The engagement calibrates every curve on Redvanly's weekly spend and order history and then on test results.</div></details>
+  </div>
+</section>
+
+<!-- ============ 04 CHANNELS ============ -->
+<section class="panel" id="channels">
+  <div class="phead">
+    <div class="kick">Section 04 · Channel economics</div>
+    <h1>Where the paid dollar earns, and where it only collects credit</h1>
+    <p>The same $4.6M looks very different on three bases: what platforms claim, what the trusted analytics source attributes, and what is incremental. Budget should follow the last of these, measured at the margin.</p>
+  </div>
+
+  <div class="card">
+    <h2>Channel scorecard</h2>
+    <div class="tw" id="ch-table"></div>
+    <p class="note">Marginal return is lifetime contribution from the next $1 at today's spend. Scale means $0.95 or more. Hold means $0.75–0.95. Cut means below $0.75. The last column is the recommended $4.0M plan. All figures are <span class="tag mod">Model</span> and calibrated to the 45% ratio.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Response curves</h2>
+      <figure><figcaption>Incremental revenue by channel spend, $M</figcaption><div id="ch-curves"></div><div class="legend" id="ch-leg"></div></figure>
+      <p class="note">Dots mark today's spend. Where a curve is flat at the dot, extra spend buys little. Brand search and retargeting are flat because most of the customers they reach were already on their way to buy.</p>
+    </div>
+    <div class="card">
+      <h2>What moves in the $4.0M plan</h2>
+      <div id="ch-move"></div>
+      <p class="note">About $1.2M comes out of retargeting, brand search, Shopping and prospecting. About $0.6M goes back into non-brand search and CTV. The other $0.6M is the saving.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Channel notes</h2>
+    <details><summary><b>Meta prospecting</b>: trim slightly and refocus on bottoms</summary><div>The marginal return is about $0.90, just under breakeven. Prospecting is also the channel most likely to create direct and brand-search demand. We would hold it near $1.55M and point creative at the pull-on demonstration. Bottoms-first customers repeat at the highest rate (Section 07). The January holdout decides whether to scale it.</div></details>
+    <details><summary><b>Meta retargeting</b>: cut to a floor</summary><div>Attributed ROAS is strong at 3.2×, but only about a quarter of it is incremental. These visitors have already browsed and many would return by email or direct. A Meta conversion-lift study run alongside the floor confirms the cut quickly.</div></details>
+    <details><summary><b>Google brand search</b>: defend, don't fund</summary><div>At 4.5× attributed ROAS this looks like the best channel. It is the least incremental: people searching "Redvanly" mostly click the organic listing if no ad appears. Keep a floor where competitors bid on the brand name, and pause it in test regions in October to measure the true loss.</div></details>
+    <details><summary><b>Google non-brand search</b>: scale</summary><div>Searches for pull-on golf pants, golf trousers and performance shorts carry real intent, and most buyers are new. This is the one large channel where more spend holds up at the margin. Expansion should follow the query map in the public research.</div></details>
+    <details><summary><b>Shopping and Performance Max</b>: cut back and exclude brand</summary><div>Performance Max tends to collect branded and returning demand unless brand exclusions are set. Trim it and apply the exclusions, then re-read it. Whatever it still earns is closer to its real contribution.</div></details>
+    <details><summary><b>CTV and YouTube</b>: scale as a test, capped</summary><div>Attribution tools undercount it because it rarely gets the last click. The model gives it credit for halo effects, which is why its marginal return is highest. That credit is also the least certain number in the model. Scale to at most $0.75M, bought by region so the January geo holdout can read its effect.</div></details>
+  </div>
+</section>
+
+<!-- ============ 05 DIRECT VS PAID ============ -->
+<section class="panel" id="direct">
+  <div class="phead">
+    <div class="kick">Section 05 · The direct-traffic thesis</div>
+    <h1>Can direct traffic replace paid traffic?</h1>
+    <p>The team's thesis is that a well-known brand should get more of its traffic directly and need less paid media. It is partly right. The answer depends on which paid dollars you mean, and it can be tested properly.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>What "direct" actually contains</h2>
+      <figure><figcaption>Direct-attributed revenue, $3.3M, by source <span class="tag mod">Model</span></figcaption><div class="bars" id="dr-comp"></div></figure>
+      <p>A third of direct is B2B and omnichannel account orders. They are real revenue, but paid media has nothing to do with them. Growing direct would not replace paid there. The consumer part of direct is mostly existing customers coming back, plus new customers who first met the brand somewhere else: a stockist, a partner club, a creator or an ad.</p>
+      <p class="note">Omnichannel attribution is hard, as the team noted on the call. The practical fix is to tag account orders at checkout and to ask new customers one post-purchase question: "Where did you first hear about Redvanly?"</p>
+    </div>
+    <div class="card">
+      <h2>The February spend cut, read as a natural experiment</h2>
+      <figure><figcaption>Weekly Meta prospecting spend ($K) and direct + brand-search sessions (index) <span class="tag mod">Model</span></figcaption><div id="dr-feb"></div>
+      <div class="legend"><span><i style="background:var(--s5)"></i>Meta prospecting spend</span><span><i style="background:var(--s1)"></i>Direct + brand-search sessions</span></div></figure>
+      <p class="note">A 40% cut to prospecting for three weeks was followed, about a week later, by a 9% dip in direct and brand-search sessions. The dip recovered when spend came back. That implies roughly 35 cents of direct and brand-search revenue per dollar of prospecting. The platforms credit none of it. A before-and-after read like this is suggestive, not proof, because seasonality and promotions overlap.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>The verdict, by type of paid spend</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Paid spend</th><th>Can direct replace it?</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Brand search · $0.55M</td><td><span class="verdict v-scale">Largely yes</span></td><td>These people already typed the name. Most would click the organic result. Keep a floor only where competitors bid on the brand.</td></tr>
+        <tr><td>Meta retargeting · $0.60M</td><td><span class="verdict v-scale">Largely yes</span></td><td>They have visited already. Email, SMS and direct return visits reach most of them for free.</td></tr>
+        <tr><td>Shopping / PMax · $0.60M</td><td><span class="verdict v-hold">Partly</span></td><td>It mixes new shoppers with branded and returning demand. Brand exclusions separate the two.</td></tr>
+        <tr><td>Meta prospecting · $1.70M</td><td><span class="verdict v-cut">No</span></td><td>It creates a share of the direct and brand-search traffic it would supposedly be replaced by.</td></tr>
+        <tr><td>Non-brand search, CTV · $1.15M</td><td><span class="verdict v-cut">No</span></td><td>It reaches people who do not yet know the brand. Direct traffic cannot reach them.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h2>How to test it: geography, not a page A/B test</h2>
+    <p>A standard A/B test splits visitors on the site. Someone who types redvanly.com has already been exposed to whatever brought them. There is nothing left to randomise at that point. The unit that can be randomised is the market: turn spend off in some regions, keep it on in matched regions, and compare total ecommerce sales in each.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Test</th><th>Design</th><th>When</th><th class="num">Est. cost</th><th>Decision rule, set in advance</th></tr></thead>
+      <tbody>
+        <tr><td><b>A · Brand search</b></td><td>Pause brand search in 20% of markets, matched on history</td><td>Oct 2026 · 3 weeks</td><td class="num">Net saving</td><td>If total branded revenue falls less than 30% of the paused spend's attributed revenue, move to the defensive floor nationally.</td></tr>
+        <tr><td><b>B · Retargeting</b></td><td>Meta conversion-lift study with a 10% holdout</td><td>Oct–Nov 2026 · 4 weeks</td><td class="num">Net saving</td><td>If measured lift is below 40% of attributed conversions, hold retargeting at its floor.</td></tr>
+        <tr><td><b>C · Prospecting + CTV</b></td><td>Turn both off in 25% of markets. Measure total ecommerce, new customers and stockist sell-through</td><td>From 4 Jan 2027 · 8 weeks</td><td class="num">≈ $15K net, ~$90K revenue</td><td>An incrementality factor above 0.9 unlocks the Generous budget path. One below 0.6 moves to Conservative. Anything between keeps $4.0M.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Test C runs after the holiday season on purpose, since Q4 is the wrong time to go dark in a quarter of the country. The planner's "How incremental is paid?" and "Direct recapture" controls preview what each outcome would mean for the budget.</p>
+  </div>
+</section>
+
+<!-- ============ 06 FUNNEL ============ -->
+<section class="panel" id="funnel">
+  <div class="phead">
+    <div class="kick">Section 06 · Funnel metrics</div>
+    <h1>The funnel loses most customers on mobile, between the bag and checkout</h1>
+    <p>Per 100 sessions, the store gets 1.69 orders overall: 3.13 on desktop and 1.10 on mobile. The gap opens at add-to-cart and widens at checkout, where terms become concrete. <span class="tag mod">Model</span></p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Per 100 sessions, by device</h2>
+      <figure><figcaption>Sessions reaching each step <span class="tag mod">Model</span></figcaption><div id="fn-bars"></div>
+      <div class="legend"><span><i style="background:var(--s2)"></i>Desktop · 29% of sessions</span><span><i style="background:var(--s1)"></i>Mobile · 71% of sessions</span></div></figure>
+    </div>
+    <div class="card">
+      <h2>Step-to-step conversion</h2>
+      <div class="tw"><table>
+        <thead><tr><th>Step</th><th class="num">Desktop</th><th class="num">Mobile</th><th class="num">Mobile gap</th></tr></thead>
+        <tbody>
+          <tr><td>Session → product page</td><td class="num">57%</td><td class="num">50%</td><td class="num dn">−12%</td></tr>
+          <tr><td>Product page → add to cart</td><td class="num">15.4%</td><td class="num">10.8%</td><td class="num dn">−30%</td></tr>
+          <tr><td>Cart → checkout</td><td class="num">61%</td><td class="num">48%</td><td class="num dn">−21%</td></tr>
+          <tr><td>Checkout → order</td><td class="num">58%</td><td class="num">42%</td><td class="num dn">−27%</td></tr>
+          <tr class="tot"><td>Session → order</td><td class="num">3.13%</td><td class="num">1.10%</td><td class="num dn">−65%</td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Some gap is structural. People browse on phones and buy on laptops. Industry benchmarks for apparel show roughly 1.2% mobile against 1.9% desktop <span class="tag pub">Public</span>. Redvanly's modelled mobile gap is wider than that, which suggests part of it can be fixed.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>New visitors carry the decline</h2>
+    <figure><figcaption>Conversion rate by visitor type, H1 2025 vs H1 2026 <span class="tag mod">Model</span></figcaption><div class="bars" id="fn-nr"></div></figure>
+    <p>Returning visitors convert almost exactly as before. New visitors convert 15% less, and most new visitors now arrive from paid social. When the store keeps its returning shoppers but converts fewer strangers, the likely causes are who the ads reach and where they land. Site-wide problems would hit both groups. This fits the call's account of paid marketing getting harder.</p>
+  </div>
+
+  <div class="card">
+    <h2>Five funnel issues, ranked</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Priority</th><th>Issue</th><th>Evidence</th><th>Test or fix</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">P0</td><td><b>Conflicting return terms</b></td><td>The Bradley product page promises free 30-day returns. The policy page deducts a $9 return fee, and ground shipping costs $9 <span class="tag pub">Public</span>.</td><td>Pick one policy and state it the same way on product page, cart, FAQ and returns portal. Watch cart-to-checkout on mobile.</td></tr>
+        <tr><td class="mono">P1</td><td><b>Fit uncertainty on bottoms</b></td><td>The trouser size chart uses overlapping waist bands and includes a chest row <span class="tag pub">Public</span>. In the model, 55% of bottoms returns cite size <span class="tag mod">Model</span>.</td><td>Garment-specific measurements and a "between sizes" rule next to the size selector. Measure size-related returns, not only conversion.</td></tr>
+        <tr><td class="mono">P1</td><td><b>Paid-social landing mismatch</b></td><td>64% of Meta clicks land on a product page and 58% bounce <span class="tag mod">Model</span>.</td><td>Test a pull-on demonstration landing path against the product page for new visitors only.</td></tr>
+        <tr><td class="mono">P1</td><td><b>Stacked mobile overlays</b></td><td>A discount popup, a consent panel and a discount tab compete for the first screen on mobile <span class="tag pub">Public</span>.</td><td>Delay the popup until after the first product view. Test its effect on contribution per session, not sign-up rate.</td></tr>
+        <tr><td class="mono">P2</td><td><b>B2B orders inside consumer metrics</b></td><td>1.6% of orders at about $1,150 AOV, recorded mostly as direct <span class="tag mod">Model</span>.</td><td>Tag account orders at checkout and report them separately.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 07 EMAIL ============ -->
+<section class="panel" id="email">
+  <div class="phead">
+    <div class="kick">Section 07 · Email, SMS and retention</div>
+    <h1>Owned channels are the cheapest replacement for paid revenue</h1>
+    <p>Every dollar of revenue given up by trimming paid can be won back more cheaply through email, SMS and second purchases. Today those channels are underweight, and email weakened this year, as the team said on the call.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Email revenue by quarter</h2>
+      <figure><figcaption>Email-attributed revenue, $K <span class="tag mod">Model</span></figcaption><div id="em-q"></div>
+      <div class="legend"><span><i style="background:var(--s5)"></i>2025</span><span><i style="background:var(--s1)"></i>2026</span></div></figure>
+      <p class="note">Year to date, email revenue is down 15%. SMS grew about 6% but is too small to offset it.</p>
+    </div>
+    <div class="card">
+      <h2>Owned share of ecommerce revenue</h2>
+      <figure><figcaption>Email + SMS as a share of ecommerce revenue</figcaption><div class="bars" id="em-share"></div></figure>
+      <p class="note">Benchmark from 2026 DTC studies <span class="tag pub">Public</span>. Premium, lower-frequency categories sit at the lower end of that range, so 14% is a realistic first target.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>What drove the decline</h2>
+    <div class="tiles">
+      <div class="tile"><div class="tl">New subscribers / month <span class="tag mod">Model</span></div><div class="tv">4.7K</div><div class="ts dn">from 6.1K · −23%</div></div>
+      <div class="tile"><div class="tl">Campaign revenue / recipient <span class="tag mod">Model</span></div><div class="tv">$0.060</div><div class="ts dn">from $0.081 · −26%</div></div>
+      <div class="tile"><div class="tl">Flows share of email revenue <span class="tag mod">Model</span></div><div class="tv">31%</div><div class="ts">Klaviyo benchmark 41% <span class="tag pub">Public</span></div></div>
+      <div class="tile"><div class="tl">Campaigns carrying an offer <span class="tag mod">Model</span></div><div class="tv">58%</div><div class="ts dn">from 41%</div></div>
+    </div>
+    <p>List growth slowed, and the popup is the main capture point. Each campaign earns less per recipient, and more campaigns lean on discounts to hold volume. Automated flows are underbuilt. In apparel, the post-purchase fit-and-care flow and the second-category flow do the most for repeat purchase. Inbox placement at Gmail and Yahoo should be checked with seed tests before creative is blamed.</p>
+    <p><b>Opportunity:</b> moving email and SMS from 10.8% to 14% of revenue adds about $0.6M. We count half of that as incremental. The planner's email control models the rest.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>What customers buy first decides whether they come back</h2>
+      <figure><figcaption>12-month repeat rate by first-order category <span class="tag mod">Model</span></figcaption><div class="bars" id="em-rep"></div></figure>
+      <p class="note">Customers who start with bottoms, the product Redvanly is known for, are almost three times as likely to buy again as licensed or team-logo buyers. Acquisition creative and landing paths should lead with bottoms.</p>
+    </div>
+    <div class="card">
+      <h2>Retention baseline</h2>
+      <div class="tw"><table>
+        <tbody>
+          <tr><td>Revenue from returning customers</td><td class="num">45%</td><td><span class="tag mod">Model</span></td></tr>
+          <tr><td>90-day second-purchase rate</td><td class="num">14%</td><td><span class="tag mod">Model</span></td></tr>
+          <tr><td>12-month repeat rate</td><td class="num">29%</td><td><span class="tag mod">Model</span></td></tr>
+          <tr><td>Orders per customer, lifetime</td><td class="num">2.0</td><td><span class="tag call">Call</span> $440 ÷ $220</td></tr>
+          <tr><td>DTC fashion repeat-rate benchmark</td><td class="num">15–17%</td><td><span class="tag pub">Public</span></td></tr>
+        </tbody>
+      </table></div>
+      <p class="note">Retention is healthy against the category. The opportunity is to reach the second purchase faster and at full price, not to add discounts.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 ACTIONS ============ -->
+<section class="panel" id="actions">
+  <div class="phead">
+    <div class="kick">Section 08 · Actions, decisions and timeline</div>
+    <h1>Ten actions, ranked by value per unit of effort</h1>
+    <p>Each action carries a confidence level. <b>Modelled</b> means the direction is supported but the size depends on the planner's assumptions. <b>Evidenced</b> means it rests on public, observable facts. <b>Hypothesis</b> means a test will decide it. In a live engagement each would carry an owner and a status.</p>
+  </div>
+
+  <div id="act-list">
+    <div class="act"><div class="act-h"><span class="n">01</span><h3>Adopt a marginal-return rule for the paid budget</h3><span class="meta">Reallocate · Modelled</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Review spend monthly by channel. Fund a channel only while its next dollar returns at least $0.90 of lifetime contribution, a small premium for growth. Retire ROAS targets as the budget metric.</dd><dt>Value</dt><dd>Framework for every later decision. Worth nothing alone and everything with actions 2 and 6.</dd><dt>Owner</dt><dd>Marketing lead with finance</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">02</span><h3>Set paid at a $4.0M run-rate and move money out of harvest channels</h3><span class="meta">Reallocate · Modelled</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Retargeting $0.60M → $0.15M. Brand search $0.55M → $0.30M floor. Shopping/PMax $0.60M → $0.23M with brand exclusions. Non-brand search $0.90M → $1.08M. CTV $0.25M → $0.69M, set up by region. Meta prospecting $1.70M → $1.55M, with creative moved to bottoms.</dd><dt>Value</dt><dd>+$0.53M in-year contribution. Revenue −0.6%. Contribution margin 30.0% → 33.0%. Better than today under every incrementality case.</dd><dt>Concern</dt><dd>If paid proves more incremental than the base case, this gives up growth. Test C resolves that by March 2027.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">03</span><h3>Make shipping and returns terms consistent everywhere</h3><span class="meta">Fix · Evidenced</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Decide between free 30-day returns and a $9 fee. State the choice identically on product page, cart, FAQ, returns portal and ads.</dd><dt>Value</dt><dd>Removes a trust conflict at the step where mobile loses the most customers. A 2-point gain in mobile cart-to-checkout is worth about $0.35M in revenue <span class="tag mod">Model</span>.</dd><dt>Owner</dt><dd>Ecommerce lead</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">04</span><h3>Test A: pause brand search in 20% of markets for three weeks</h3><span class="meta">Test · Hypothesis</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Matched-market pause in October. Compare total branded revenue, not the ad platform's number.</dd><dt>Value</dt><dd>Confirms the $0.25M brand-search cut. Tests the direct-traffic thesis on the channel where it is most likely true.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">05</span><h3>Test B: Meta retargeting conversion-lift study</h3><span class="meta">Test · Hypothesis</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Platform lift study with a 10% holdout, run from October to November alongside the reduced floor.</dd><dt>Value</dt><dd>Confirms or reverses the $0.45M retargeting cut before holiday peak.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">06</span><h3>Test C: prospecting and CTV geo holdout from January 2027</h3><span class="meta">Test · Hypothesis</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Eight weeks, 25% of markets dark on Meta prospecting and CTV. Read total ecommerce, new customers and stockist sell-through in those markets.</dd><dt>Value</dt><dd>Narrows the profit-maximising budget from a $1.5–6.4M range to a decision. This is the single most valuable number in the engagement.</dd><dt>Concern</dt><dd>Needs about 25 weeks of weekly regional sales history to match markets. Wholesale data sharing makes the read much stronger.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">07</span><h3>Rebuild email flows and list growth</h3><span class="meta">Build · Modelled</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Seed-test inbox placement. Build post-purchase fit-and-care and second-category flows. Segment on the golf, tennis and activewear question the popup already asks. Cap offer-bearing campaigns.</dd><dt>Value</dt><dd>Email + SMS from 10.8% to 14% of revenue: +$0.6M revenue, about half incremental.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">08</span><h3>Fix mobile fit guidance and overlay order</h3><span class="meta">Build · Modelled</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Garment-specific measurements beside the size selector. A short pull-on explanation close to the add-to-cart button. Popup delayed until after the first product view.</dd><dt>Value</dt><dd>A 5% relative lift in mobile conversion is worth about $0.45M in revenue. Fewer size-related returns come on top.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">09</span><h3>Separate B2B and omnichannel account orders from consumer metrics</h3><span class="meta">Measure · Hypothesis</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>Tag account orders at checkout. Add a post-purchase "where did you first hear about us" question with stockist and partner options.</dd><dt>Value</dt><dd>Corrects AOV, LTV and direct-traffic readings that currently mix two businesses.</dd></dl></div></div>
+    <div class="act"><div class="act-h"><span class="n">10</span><h3>Run the monthly budget review on contribution per session</h3><span class="meta">Measure · Evidenced</span></div>
+      <div class="act-b"><dl class="kv"><dt>What</dt><dd>One dashboard with four views: source to first-order contribution, product to returns, cohort to repeat contribution, and channel to retained margin. It feeds the rule in action 1.</dd><dt>Value</dt><dd>Keeps the planner calibrated on live data after the engagement ends.</dd></dl></div></div>
+  </div>
+
+  <div class="card" style="margin-top:28px">
+    <h2>Timeline</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Window</th><th>What happens</th><th>Exit criterion</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">Weeks 1–2</td><td>Data access, reconciliation of orders, refunds and spend. Every Model figure in this preview replaced with actuals.</td><td>A reconciled baseline both teams sign off.</td></tr>
+        <tr><td class="mono">Weeks 2–4</td><td>Channel curves calibrated on weekly history. Returns-policy fix live. Tests A and B launched.</td><td>Planner running on Redvanly data. Q4 run-rate set.</td></tr>
+        <tr><td class="mono">Oct – Dec</td><td>Reallocation in market. Email flow rebuild. Mobile fit and overlay tests.</td><td>Monthly contribution review in place.</td></tr>
+        <tr><td class="mono">Jan – Feb 2027</td><td>Test C, the prospecting and CTV geo holdout, runs for eight weeks.</td><td>Incrementality factor read with a confidence range.</td></tr>
+        <tr><td class="mono">Mar 2027</td><td>Planner re-run on test results. 2027 budget set.</td><td>A justified paid budget and channel mix for 2027.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ 09 METHOD ============ -->
+<section class="panel" id="method">
+  <div class="phead">
+    <div class="kick">Section 09 · Method, data and sources</div>
+    <h1>What is real, what is modelled, and what we would need</h1>
+    <p>This preview was built before any data access, from a call with the Redvanly team, public research and a calibrated synthetic model. That is enough to show the method and frame the decisions. It is not enough to make them.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Stated on the call</h2>
+      <div class="tw"><table><tbody>
+        <tr><td>Ecommerce revenue</td><td class="num">$19M of $50M</td></tr>
+        <tr><td>AOV · LTV</td><td class="num">$220 · $440</td></tr>
+        <tr><td>Gross · contribution · net margin</td><td class="num">80% · 30% · ~20%</td></tr>
+        <tr><td>Paid marketing efficiency ratio</td><td class="num">45%</td></tr>
+        <tr><td colspan="2" class="dim">Marketing efficiency got harder early this year. Paid and email struggled. Omnichannel B2B attribution is hard. Thesis: direct traffic can replace paid, testable.</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Modelled, to be replaced</h2>
+      <p>The cost-line split, channel spend and ROAS, incrementality factors, curve shapes, funnel rates, email trends, repeat rates and the B2B share. Each was chosen to be plausible for a premium apparel DTC brand at this scale, and they reconcile to the call figures. The weakest assumptions are the incrementality factors and the CTV halo. The tests exist to measure exactly those.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Data we would request</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Area</th><th>What</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Commerce and finance</td><td>18–24 months of orders and line items, discounts, refunds, shipping; landed cost, fulfilment, payment and returns costs</td><td>Replace the modelled P&amp;L and rebuild LTV by cohort</td></tr>
+        <tr><td>Paid media</td><td>Weekly spend and results by campaign and region; attribution settings; read-only platform access</td><td>Calibrate channel curves and match test markets</td></tr>
+        <tr><td>Analytics</td><td>Sessions, funnel events and device by source; new and returning splits</td><td>Replace the funnel model</td></tr>
+        <tr><td>Email and SMS</td><td>Campaign and flow performance, list growth, deliverability</td><td>Size the owned-channel opportunity</td></tr>
+        <tr><td>B2B and wholesale</td><td>Account order flags; regional sell-through where available</td><td>Separate the two businesses and strengthen Test C</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">We need read-only access and pseudonymous customer IDs only. No admin rights, no changes to live settings, and no customer names or payment details.</p>
+  </div>
+
+  <div class="card">
+    <h2>Sources</h2>
+    <ul style="margin:0;padding-left:18px;font-size:13.5px;color:var(--ink2)">
+      <li>Redvanly shipping and returns policy, <a href="https://www.redvanly.com/pages/shipping-returns" target="_blank" rel="noopener">redvanly.com</a>, and Bradley product page, <a href="https://www.redvanly.com/products/bradley-pull-on-trouser-in-bark" target="_blank" rel="noopener">redvanly.com</a>, both viewed 23 September 2026</li>
+      <li>Redvanly bottoms story, <a href="https://www.redvanly.com/pages/bottoms" target="_blank" rel="noopener">redvanly.com</a></li>
+      <li>Troon, Cliff Drysdale Tennis and PBI partnership, <a href="https://www.pbitennis.com/post/redvanly-named-preferred-partner-of-troon-cliff-drysdale-tennis-and-peter-burwash-international" target="_blank" rel="noopener">pbitennis.com</a>, May 2026</li>
+      <li>Meta CPM change 2025–2026, <a href="https://www.threadpoint.agency/blogs/learn-e-mail-marketing/why-are-my-meta-cpms-so-high-in-2026-and-what-to-actually-do-about-it" target="_blank" rel="noopener">Threadpoint</a></li>
+      <li>DTC fashion benchmarks: device conversion, email share, flows share, repeat and return rates, <a href="https://foundrycro.com/blog/dtc-fashion-marketing-benchmarks-2026/" target="_blank" rel="noopener">Foundry CRO</a>, compiling Envive, Klaviyo, Ringly and others</li>
+      <li>CreditSwan market and ecommerce research on Redvanly, 23 September 2026 (project file)</li>
+    </ul>
+  </div>
+
+  <div class="foot"><span>CreditSwan · creditswan.ai</span><span>Preview edition · Illustrative data · Not for redistribution</span></div>
+</section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- shell ---------- */
+var tabs=[].slice.call(document.querySelectorAll('.tab'));
+function show(id){
+  tabs.forEach(function(t){t.setAttribute('aria-selected', String(t.dataset.p===id));});
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on',p.id===id);});
+  window.scrollTo(0,0);
+  try{ if(history.replaceState) history.replaceState(null,'','#'+id);}catch(e){}
+}
+tabs.forEach(function(t){t.addEventListener('click',function(){show(t.dataset.p);});});
+document.addEventListener('click',function(e){
+  var a=e.target.closest('[data-go]'); if(a){e.preventDefault();show(a.dataset.go);return;}
+  var h=e.target.closest('.act-h'); if(h){h.parentNode.classList.toggle('open');}
+});
+if(location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
+document.getElementById('theme').addEventListener('click',function(){
+  var r=document.documentElement, cur=r.getAttribute('data-theme');
+  if(!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark':'light';
+  r.setAttribute('data-theme', cur==='dark'?'light':'dark');
+});
+var openAll=false;
+document.getElementById('expand').addEventListener('click',function(){
+  openAll=!openAll;
+  document.querySelectorAll('details').forEach(function(d){d.open=openAll;});
+  document.querySelectorAll('.act').forEach(function(a){a.classList.toggle('open',openAll);});
+  this.textContent=openAll?'Collapse all':'Expand all';
+});
+
+/* ---------- helpers ---------- */
+function $(id){return document.getElementById(id);}
+function m(v,d){return '$'+v.toFixed(d==null?2:d)+'M';}
+function sgn(v,f){return (v>=0?'+':'−')+f(Math.abs(v));}
+function pct(v,d){return (v*100).toFixed(d==null?1:d)+'%';}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function niceTicks(lo,hi,n){var span=hi-lo,step=Math.pow(10,Math.floor(Math.log10(span/n))),err=span/n/step;
+  if(err>=7.5)step*=10;else if(err>=3.5)step*=5;else if(err>=1.5)step*=2;
+  var t=[],v=Math.ceil(lo/step)*step;for(;v<=hi+1e-9;v+=step)t.push(+v.toFixed(10));return t;}
+
+/* line chart: opts {w,h,x:[lo,hi],y:[lo,hi],xt,yt,fx,fy,series:[{pts,color,w,dash}],dots:[{x,y,color,r,label,anchor}],hlines:[{y,label}] ,pad} */
+function lineChart(el,o){
+  var W=o.w||520,H=o.h||220,P=o.pad||{l:44,r:14,t:12,b:26};
+  var X=function(v){return P.l+(v-o.x[0])/(o.x[1]-o.x[0])*(W-P.l-P.r);};
+  var Y=function(v){return H-P.b-(v-o.y[0])/(o.y[1]-o.y[0])*(H-P.t-P.b);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.label||'chart')+'">';
+  (o.yt||niceTicks(o.y[0],o.y[1],4)).forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Y(t)+3.5)+'" text-anchor="end">'+(o.fy?o.fy(t):t)+'</text>';});
+  (o.xt||niceTicks(o.x[0],o.x[1],5)).forEach(function(t){s+='<text class="ax" x="'+X(t)+'" y="'+(H-8)+'" text-anchor="middle">'+(o.fx?o.fx(t):t)+'</text>';});
+  s+='<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+(H-P.b)+'" y2="'+(H-P.b)+'"/>';
+  (o.hlines||[]).forEach(function(h){s+='<line x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(h.y)+'" y2="'+Y(h.y)+'" style="stroke:var(--crit);stroke-dasharray:4 4;stroke-width:1"/><text class="ax" x="'+(W-P.r)+'" y="'+(Y(h.y)-5)+'" text-anchor="end" style="fill:var(--crit)">'+h.label+'</text>';});
+  (o.series||[]).forEach(function(se){var d=se.pts.map(function(p,i){return (i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1);}).join(' ');
+    s+='<path d="'+d+'" style="fill:none;stroke:'+se.color+';stroke-width:'+(se.w||2)+(se.dash?';stroke-dasharray:'+se.dash:'')+'"/>';});
+  (o.dots||[]).forEach(function(d){s+='<circle cx="'+X(d.x)+'" cy="'+Y(d.y)+'" r="'+(d.r||4.5)+'" style="fill:'+d.color+';stroke:var(--plane);stroke-width:1.5"/>';
+    if(d.label)s+='<text class="vl" x="'+(X(d.x)+(d.dx||0))+'" y="'+(Y(d.y)+(d.dy||-10))+'" text-anchor="'+(d.anchor||'middle')+'">'+d.label+'</text>';});
+  el.innerHTML=s+'</svg>';
+}
+/* bar rows with optional breakeven marker */
+function barRows(el,rows,max,opts){
+  opts=opts||{};
+  el.innerHTML=rows.map(function(r){
+    var w=Math.max(0,Math.min(1,r.v/max))*100;
+    var mk=opts.mark!=null?'<span style="position:absolute;top:-3px;bottom:-3px;left:'+(opts.mark/max*100)+'%;width:1px;background:var(--ink)"></span>':'';
+    return '<div class="brow"><span class="lb">'+r.l+'</span><div class="btrack" style="position:relative;overflow:visible"><div class="bfill '+(r.c||'')+'" style="width:'+w+'%"></div>'+mk+'</div><span class="bv">'+r.t+'</span></div>';
+  }).join('')+(opts.markLabel?'<p class="mini" style="margin:6px 0 0">'+opts.markLabel+'</p>':'');
+}
+
+/* ---------- model ---------- */
+var CH=[ // name, spend, platform ROAS, attributed ROAS, incrementality k, curvature b, new share, floor, cap, color
+ {n:'Meta prospecting',s:1.70,pr:2.3,r:1.60,k:0.70,b:0.74,ns:0.75,lo:0.30,hi:3.40,c:'var(--s1)'},
+ {n:'Meta retargeting',s:0.60,pr:5.8,r:3.20,k:0.25,b:0.40,ns:0.15,lo:0.15,hi:1.20,c:'var(--s2)'},
+ {n:'Google brand search',s:0.55,pr:9.1,r:4.50,k:0.15,b:0.30,ns:0.20,lo:0.30,hi:0.80,c:'var(--s3)'},
+ {n:'Google non-brand search',s:0.90,pr:2.1,r:1.60,k:0.80,b:0.72,ns:0.70,lo:0.20,hi:1.80,c:'var(--s4)'},
+ {n:'Shopping / PMax',s:0.60,pr:4.4,r:2.40,k:0.50,b:0.55,ns:0.45,lo:0.20,hi:1.20,c:'var(--s5)'},
+ {n:'CTV / YouTube',s:0.25,pr:1.9,r:0.80,k:2.00,b:0.70,ns:0.80,lo:0.00,hi:0.75,c:'var(--crit)'}
+];
+var REV0=19.0, OTHER_MKT=1.48, FIXED=1.90, NEW0=47.0, EMAIL0=2.05, AOV=220;
+var DEF={cvr:0,aov:0,gm:80,varc:18,email:0,halo:0,inc:1,ltv:2};
+var st={sp:CH.map(function(c){return c.s;}),lv:Object.assign({},DEF)};
+
+function mk(lv){ // build model context for lever set
+  var R0=CH.map(function(c){return c.s*c.r*c.k*lv.inc;});
+  var sumR0=R0.reduce(function(a,b){return a+b;},0);
+  var newPaid0=CH.reduce(function(a,c,i){return a+R0[i]*c.ns;},0)*1e6/AOV/1000;
+  return {lv:lv,R0:R0,base:REV0-sumR0,baseNew:NEW0-newPaid0,cm:(lv.gm-lv.varc)/100,mult:(1+lv.cvr/100)*(1+lv.aov/100),L:lv.ltv,th:lv.halo/100};
+}
+function Ri(M,i,s){var c=CH[i];return s>0?M.R0[i]*Math.pow(s/c.s,c.b):0;}
+function evalPlan(M,sp){
+  var rv=sp.map(function(s,i){return Ri(M,i,s);});
+  var rec=M.th*rv.reduce(function(a,r,i){return a+Math.max(0,M.R0[i]-r);},0);
+  var email=EMAIL0*(M.lv.email/100)*0.5;
+  var cvrM=1+M.lv.cvr/100;
+  var rev=(M.base+rv.reduce(function(a,b){return a+b;},0)+rec+email)*M.mult;
+  var paid=sp.reduce(function(a,b){return a+b;},0);
+  var contrib=rev*M.cm-paid-OTHER_MKT;
+  var fut=rv.reduce(function(a,r,i){return a+r*CH[i].ns*(M.L-1);},0)*M.mult*M.cm;
+  var attr=sp.reduce(function(a,s,i){var c=CH[i];return a+(s>0?c.s*c.r*Math.pow(s/c.s,c.b):0);},0)*M.mult;
+  var newc=(M.baseNew+rv.reduce(function(a,r,i){return a+r*CH[i].ns;},0)*1e6/AOV/1000)*cvrM+(rec*0.5+email*0.3)*1e6/AOV/1000*cvrM;
+  return {rev:rev,paid:paid,contrib:contrib,cmPct:contrib/rev,net:contrib-FIXED,netPct:(contrib-FIXED)/rev,lt:contrib+fut,
+    mktPct:(paid+OTHER_MKT)/rev,eff:attr>0?paid/attr:0,newc:newc,cac:(paid+OTHER_MKT)*1000/newc};
+}
+function marg(M,i,s){ // lifetime contribution from next $1
+  var c=CH[i],ss=Math.max(s,1e-3);
+  var d=c.b*M.R0[i]/c.s*Math.pow(ss/c.s,c.b-1);
+  if(s<c.s) d*=(1-M.th);
+  return d*M.mult*M.cm*(1+c.ns*(M.L-1));
+}
+function optimise(M,B){
+  var step=0.01, sp=CH.map(function(c){return c.lo;});
+  var fl=sp.reduce(function(a,b){return a+b;},0);
+  if(B<=fl){return sp.map(function(v){return v*B/fl;});}
+  var left=Math.round((B-fl)/step);
+  while(left>0){
+    var best=-1,bv=-1e9;
+    for(var i=0;i<CH.length;i++){ if(sp[i]+step>CH[i].hi+1e-9)continue; var v=marg(M,i,sp[i]+step/2); if(v>bv){bv=v;best=i;} }
+    if(best<0)break; sp[best]+=step; left--;
+  }
+  return sp;
+}
+function frontier(M){
+  var pts=[];for(var B=1.5;B<=7.51;B+=0.25){var sp=optimise(M,B),e=evalPlan(M,sp);pts.push({B:B,lt:e.lt,rev:e.rev,contrib:e.contrib});}
+  return pts;
+}
+function profitMax(M){
+  var best=null;for(var B=1.5;B<=7.51;B+=0.1){var sp=optimise(M,B),e=evalPlan(M,sp);if(!best||e.lt>best.e.lt)best={B:B,sp:sp,e:e};}
+  return best;
+}
+function verdict(v){return v>=0.95?['Scale','v-scale']:v>=0.75?['Hold','v-hold']:['Cut','v-cut'];}
+
+/* ---------- static charts at base assumptions ---------- */
+var MB=mk(DEF), today=CH.map(function(c){return c.s;}), rec=optimise(MB,4.0);
+
+// overview marginal bars
+barRows($('ov-marg'),CH.map(function(c,i){var v=marg(MB,i,c.s);return {l:c.n,v:v,t:'$'+v.toFixed(2),c:v>=0.95?'':(v>=0.75?'g':'c')};}),1.4,{mark:1,markLabel:'Line marks $1.00 · breakeven'});
+// overview frontier
+(function(){
+  var F=frontier(MB),eT=evalPlan(MB,today),eR=evalPlan(MB,rec),pm=profitMax(MB);
+  lineChart($('ov-front'),{w:520,h:210,x:[1.5,7.5],y:[7.2,8.4],xt:[2,3,4,5,6,7],yt:[7.2,7.6,8.0,8.4],fx:function(t){return '$'+t+'M';},fy:function(t){return t.toFixed(1);},
+    label:'Lifetime contribution by paid budget',series:[{pts:F.map(function(p){return [p.B,p.lt];}),color:'var(--s1)',w:2.2}],
+    dots:[{x:4.6,y:eT.lt,color:'var(--ink)',label:'Today $'+eT.lt.toFixed(2)+'M',dy:16},{x:4.0,y:eR.lt,color:'var(--s1)',label:'$4.0M plan',dy:-12},{x:pm.B,y:pm.e.lt,color:'var(--s2)',r:3.5,label:'Profit max',dy:18}]});
+})();
+
+// waterfall
+(function(){
+  var steps=[['Revenue',19.0,'t'],['Product cost',-3.8],['Variable costs',-3.42],['Marketing',-6.08],['Contribution',5.70,'t'],['Fixed',-1.90],['Net',3.80,'t']];
+  var W=620,H=230,P={l:36,r:8,t:18,b:34},n=steps.length,bw=(W-P.l-P.r)/n;
+  var Y=function(v){return H-P.b-v/20*(H-P.t-P.b);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Ecommerce P&L waterfall">';
+  [0,5,10,15,20].forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Y(t)+3.5)+'" text-anchor="end">'+t+'</text>';});
+  var run=0;
+  steps.forEach(function(st_,i){
+    var x=P.l+i*bw+bw*0.18,w=bw*0.64,top,bot,fill;
+    if(st_[2]==='t'){top=st_[1];bot=0;run=st_[1];fill=st_[0]==='Contribution'?'var(--s1)':(st_[0]==='Net'?'var(--s2)':'var(--s4)');}
+    else{top=run;bot=run+st_[1];run=bot;fill='var(--neutral)';}
+    s+='<rect x="'+x+'" y="'+Y(top)+'" width="'+w+'" height="'+(Y(bot)-Y(top))+'" style="fill:'+fill+'"/>';
+    s+='<text class="vl" x="'+(x+w/2)+'" y="'+(Y(top)-5)+'" text-anchor="middle">'+(st_[1]<0?'−':'')+Math.abs(st_[1]).toFixed(2)+'</text>';
+    s+='<text class="ax" x="'+(x+w/2)+'" y="'+(H-12)+'" text-anchor="middle">'+st_[0].toUpperCase()+'</text>';
+  });
+  $('ec-water').innerHTML=s+'<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'"/></svg>';
+})();
+barRows($('ec-ratio'),[{l:'Attributed ratio (call)',v:45,t:'45%'},{l:'Breakeven, first order',v:62,t:'62%',c:'n'},{l:'Incremental ratio (model)',v:91,t:'91%',c:'c'}],100);
+lineChart($('ec-q'),{w:520,h:200,x:[0,6],y:[30,70],xt:[0,1,2,3,4,5,6],yt:[30,40,50,60,70],fx:function(t){return ['Q1 25','Q2 25','Q3 25','Q4 25','Q1 26','Q2 26','Q3 26'][t];},fy:function(t){return t+'%';},
+  label:'Paid efficiency ratio by quarter',hlines:[{y:62,label:'Breakeven 62%'}],
+  series:[{pts:[[0,38],[1,40],[2,41],[3,36],[4,44],[5,47],[6,45]],color:'var(--s2)',w:2}],
+  dots:[{x:6,y:45,color:'var(--s1)',label:'45%',dy:-10}]});
+
+// channel table
+(function(){
+  var h='<table><thead><tr><th>Channel</th><th class="num">Spend</th><th class="num">Platform ROAS</th><th class="num">Attributed ROAS</th><th class="num">Incremental ROAS</th><th class="num">New customers</th><th class="num">Next $1 returns</th><th>Verdict</th><th class="num">$4.0M plan</th></tr></thead><tbody>';
+  var tot={s:0,pr:0,r:0,inc:0};
+  CH.forEach(function(c,i){var v=marg(MB,i,c.s),vd=verdict(v);tot.s+=c.s;tot.pr+=c.s*c.pr;tot.r+=c.s*c.r;tot.inc+=c.s*c.r*c.k;
+    h+='<tr><td>'+c.n+'</td><td class="num">'+m(c.s)+'</td><td class="num">'+c.pr.toFixed(1)+'×</td><td class="num">'+c.r.toFixed(1)+'×</td><td class="num">'+(c.r*c.k).toFixed(2)+'×</td><td class="num">'+Math.round(c.ns*100)+'%</td><td class="num">$'+v.toFixed(2)+'</td><td><span class="verdict '+vd[1]+'">'+vd[0]+'</span></td><td class="num">'+m(rec[i])+'</td></tr>';});
+  h+='<tr class="tot"><td>Total paid</td><td class="num">'+m(tot.s)+'</td><td class="num">'+(tot.pr/tot.s).toFixed(1)+'×</td><td class="num">'+(tot.r/tot.s).toFixed(1)+'×</td><td class="num">'+(tot.inc/tot.s).toFixed(2)+'×</td><td></td><td></td><td></td><td class="num">'+m(rec.reduce(function(a,b){return a+b;},0))+'</td></tr></tbody></table>';
+  $('ch-table').innerHTML=h;
+  var note=document.createElement('p');note.className='note';
+  note.textContent='Platforms self-report $'+tot.pr.toFixed(1)+'M of revenue, '+Math.round(tot.pr/REV0*100)+'% of all ecommerce sales. The trusted analytics source credits $'+tot.r.toFixed(1)+'M. The model finds $'+tot.inc.toFixed(1)+'M incremental.';
+  $('ch-table').appendChild(note);
+})();
+// curves
+(function(){
+  var series=CH.map(function(c,i){var pts=[];for(var s=0.02;s<=c.hi+1e-9;s+=0.02)pts.push([s,Ri(MB,i,s)]);return {pts:pts,color:c.c,w:2,dash:i===5?'5 4':null};});
+  lineChart($('ch-curves'),{w:520,h:240,x:[0,3.5],y:[0,3],xt:[0,1,2,3],yt:[0,1,2,3],fx:function(t){return '$'+t+'M';},fy:function(t){return '$'+t+'M';},label:'Channel response curves',series:series,
+    dots:CH.map(function(c,i){return {x:c.s,y:Ri(MB,i,c.s),color:c.c,r:4};})});
+  $('ch-leg').innerHTML=CH.map(function(c,i){return '<span><i style="background:'+c.c+'"></i>'+c.n+'</span>';}).join('');
+})();
+// moves
+$('ch-move').innerHTML=CH.map(function(c,i){var d=rec[i]-c.s;return '<div class="brow"><span class="lb">'+c.n+'</span><span class="mono" style="font-size:12.5px;color:var(--ink2)">'+c.s.toFixed(2)+' → '+rec[i].toFixed(2)+'</span><span class="bv '+(d>=0?'up':'dn')+'">'+(d>=0?'+':'−')+Math.abs(d).toFixed(2)+'</span></div>';}).join('')+
+  '<div class="brow" style="border-top:1px solid var(--rule);margin-top:4px;padding-top:8px"><span class="lb"><b>Total</b></span><span class="mono" style="font-size:12.5px">4.60 → '+rec.reduce(function(a,b){return a+b;},0).toFixed(2)+'</span><span class="bv dn">−0.60</span></div>';
+// params table
+(function(){
+  var h='<table><thead><tr><th>Channel</th><th class="num">Spend</th><th class="num">Attributed ROAS</th><th class="num">Incrementality</th><th class="num">Curvature b</th><th class="num">New share</th><th class="num">Floor</th><th class="num">Cap</th></tr></thead><tbody>';
+  CH.forEach(function(c){h+='<tr><td>'+c.n+'</td><td class="num">'+c.s.toFixed(2)+'</td><td class="num">'+c.r.toFixed(1)+'×</td><td class="num">'+c.k.toFixed(2)+'</td><td class="num">'+c.b.toFixed(2)+'</td><td class="num">'+Math.round(c.ns*100)+'%</td><td class="num">'+c.lo.toFixed(2)+'</td><td class="num">'+c.hi.toFixed(2)+'</td></tr>';});
+  $('param-table').innerHTML=h+'</tbody></table><p class="note">Spend, floor and cap in $M per year. Base revenue not driven by paid: $'+MB.base.toFixed(2)+'M. Other marketing: $1.48M. Fixed ecommerce costs: $1.90M.</p>';
+})();
+// direct
+barRows($('dr-comp'),[{l:'B2B and omnichannel account orders',v:1.1,t:'$1.1M',c:'n'},{l:'Existing customers returning',v:1.4,t:'$1.4M'},{l:'New customers, first touch elsewhere',v:0.8,t:'$0.8M',c:'g'}],1.6);
+(function(){
+  var sp=[33,34,32,33,34,20,20,20,33,34,33,35,34,34], ix=[100,101,99,100,101,100,94,91,92,97,100,101,100,102];
+  var W=520,H=220,P={l:36,r:36,t:14,b:26},n=sp.length,bw=(W-P.l-P.r)/n;
+  var Ys=function(v){return H-P.b-v/40*(H-P.t-P.b);}, Yi=function(v){return H-P.b-(v-85)/20*(H-P.t-P.b);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="February spend cut">';
+  [0,10,20,30,40].forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Ys(t)+'" y2="'+Ys(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Ys(t)+3.5)+'" text-anchor="end">'+t+'</text><text class="ax" x="'+(W-P.r+6)+'" y="'+(Ys(t)+3.5)+'">'+(85+t/2)+'</text>';});
+  sp.forEach(function(v,i){var x=P.l+i*bw+bw*0.2;s+='<rect x="'+x+'" y="'+Ys(v)+'" width="'+(bw*0.6)+'" height="'+(Ys(0)-Ys(v))+'" style="fill:var(--s5)"/>';
+    if(i%2===0)s+='<text class="ax" x="'+(x+bw*0.3)+'" y="'+(H-8)+'" text-anchor="middle">'+['5 JAN','19 JAN','2 FEB','16 FEB','2 MAR','16 MAR','30 MAR'][i/2]+'</text>';});
+  s+='<path d="'+ix.map(function(v,i){return (i?'L':'M')+(P.l+i*bw+bw/2).toFixed(1)+' '+Yi(v).toFixed(1);}).join(' ')+'" style="fill:none;stroke:var(--s1);stroke-width:2.2"/>';
+  s+='<circle cx="'+(P.l+7*bw+bw/2)+'" cy="'+Yi(91)+'" r="4" style="fill:var(--s1)"/><text class="vl" x="'+(P.l+7*bw+bw/2+8)+'" y="'+(Yi(91)+14)+'">−9%</text>';
+  $('dr-feb').innerHTML=s+'<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Ys(0)+'" y2="'+Ys(0)+'"/></svg>';
+})();
+// funnel grouped bars
+(function(){
+  var steps=[['Add to cart',8.8,5.4],['Checkout',5.4,2.6],['Order',3.13,1.10]];
+  var W=520,H=210,P={l:36,r:8,t:18,b:26},gw=(W-P.l-P.r)/steps.length;
+  var Y=function(v){return H-P.b-v/10*(H-P.t-P.b);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Funnel by device">';
+  [0,2,4,6,8,10].forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Y(t)+3.5)+'" text-anchor="end">'+t+'</text>';});
+  steps.forEach(function(st_,i){var x0=P.l+i*gw+gw*0.18,bw=gw*0.3;
+    [[st_[1],'var(--s2)'],[st_[2],'var(--s1)']].forEach(function(b,j){var x=x0+j*(bw+4);
+      s+='<rect x="'+x+'" y="'+Y(b[0])+'" width="'+bw+'" height="'+(Y(0)-Y(b[0]))+'" style="fill:'+b[1]+'"/><text class="vl" x="'+(x+bw/2)+'" y="'+(Y(b[0])-5)+'" text-anchor="middle">'+b[0].toFixed(b[0]<4?2:1)+'</text>';});
+    s+='<text class="ax" x="'+(x0+bw+2)+'" y="'+(H-8)+'" text-anchor="middle">'+st_[0].toUpperCase()+'</text>';});
+  $('fn-bars').innerHTML=s+'<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'"/></svg><p class="note">Of 100 sessions, 57 desktop and 50 mobile reach a product page (see table).</p>';
+})();
+barRows($('fn-nr'),[{l:'New visitors · H1 2025',v:1.12,t:'1.12%',c:'n'},{l:'New visitors · H1 2026',v:0.95,t:'0.95%',c:'c'},{l:'Returning · H1 2025',v:3.70,t:'3.70%',c:'n'},{l:'Returning · H1 2026',v:3.60,t:'3.60%'}],4);
+// email
+(function(){
+  var q=[['Q1',400,350],['Q2',460,380],['Q3',420,360],['Q4',580,null]];
+  var W=520,H=200,P={l:40,r:8,t:18,b:26},gw=(W-P.l-P.r)/4;
+  var Y=function(v){return H-P.b-v/600*(H-P.t-P.b);};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Email revenue by quarter">';
+  [0,200,400,600].forEach(function(t){s+='<line class="gl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'"/><text class="ax" x="'+(P.l-6)+'" y="'+(Y(t)+3.5)+'" text-anchor="end">'+t+'</text>';});
+  q.forEach(function(r,i){var x0=P.l+i*gw+gw*0.18,bw=gw*0.3;
+    [[r[1],'var(--s5)'],[r[2],'var(--s1)']].forEach(function(b,j){if(b[0]==null)return;var x=x0+j*(bw+4);
+      s+='<rect x="'+x+'" y="'+Y(b[0])+'" width="'+bw+'" height="'+(Y(0)-Y(b[0]))+'" style="fill:'+b[1]+'"/><text class="vl" x="'+(x+bw/2)+'" y="'+(Y(b[0])-5)+'" text-anchor="middle">'+b[0]+'</text>';});
+    s+='<text class="ax" x="'+(x0+bw+2)+'" y="'+(H-8)+'" text-anchor="middle">'+r[0]+'</text>';});
+  $('em-q').innerHTML=s+'<line class="bl" x1="'+P.l+'" x2="'+(W-P.r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'"/></svg>';
+})();
+barRows($('em-share'),[{l:'Redvanly today',v:10.8,t:'10.8%',c:'c'},{l:'First target',v:14,t:'14%',c:'g'},{l:'DTC benchmark, low',v:20,t:'20%',c:'n'},{l:'DTC benchmark, high',v:30,t:'30%',c:'n'}],32);
+barRows($('em-rep'),[{l:'Bottoms',v:34,t:'34%'},{l:'Polos and tops',v:24,t:'24%',c:'n'},{l:'Layers',v:21,t:'21%',c:'n'},{l:'Licensed and team',v:12,t:'12%',c:'n'},{l:'Gift purchase',v:9,t:'9%',c:'n'}],40);
+
+/* ---------- planner ---------- */
+var LEV=[
+ {k:'cvr',l:'Site conversion rate',min:-10,max:20,step:1,f:function(v){return (v>0?'+':'')+v+'%';},sub:'relative to 1.69% today'},
+ {k:'aov',l:'Average order value',min:-10,max:10,step:1,f:function(v){return '$'+Math.round(AOV*(1+v/100));},sub:'$220 today'},
+ {k:'gm',l:'Gross margin',min:72,max:85,step:0.5,f:function(v){return v+'%';},sub:'discount depth moves this'},
+ {k:'varc',l:'Variable costs',min:13,max:23,step:0.5,f:function(v){return v+'%';},sub:'fulfilment, shipping, returns, fees'},
+ {k:'email',l:'Email and SMS revenue',min:-20,max:60,step:5,f:function(v){return (v>0?'+':'')+v+'%';},sub:'$2.05M today; half of any gain counted'}
+];
+function sliderRow(id,label,min,max,step,val,dot){
+  return '<div class="srow"><label for="'+id+'">'+(dot?'<span class="dotm" style="background:'+dot+'"></span>':'')+label+'</label><div class="val" id="'+id+'-v"></div><input type="range" id="'+id+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+val+'"></div>';
+}
+$('ch-sliders').innerHTML=CH.map(function(c,i){return sliderRow('ch'+i,c.n,0,c.hi,0.01,c.s,c.c);}).join('');
+$('lev-sliders').innerHTML=LEV.map(function(L){return sliderRow('lv-'+L.k,L.l,L.min,L.max,L.step,DEF[L.k]);}).join('');
+$('halo-slider').innerHTML=sliderRow('lv-halo','Direct recapture when paid is cut',0,60,5,0);
+CH.forEach(function(c,i){$('ch'+i).addEventListener('input',function(){st.sp[i]=+this.value;render();});});
+LEV.concat([{k:'halo'}]).forEach(function(L){$('lv-'+L.k).addEventListener('input',function(){st.lv[L.k]=+this.value;render(true);});});
+function segInit(id,key){var bs=[].slice.call($(id).querySelectorAll('button'));bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});st.lv[key]=+b.dataset.v;render(true);});});}
+segInit('seg-inc','inc');segInit('seg-ltv','ltv');
+function setSp(sp){st.sp=sp.map(function(v){return Math.round(v*100)/100;});CH.forEach(function(c,i){$('ch'+i).value=st.sp[i];});render();}
+function setLv(lv){st.lv=Object.assign({},lv);LEV.concat([{k:'halo'}]).forEach(function(L){$('lv-'+L.k).value=st.lv[L.k];});
+  [['seg-inc','inc'],['seg-ltv','ltv']].forEach(function(p){$(p[0]).querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(+b.dataset.v===st.lv[p[1]]));});});}
+document.querySelectorAll('[data-preset]').forEach(function(b){b.addEventListener('click',function(){
+  var M=mk(st.lv),p=b.dataset.preset;
+  if(p==='today'){setLv(DEF);setSp(today);frontCache=null;render(true);return;}
+  if(p==='rec')setSp(optimise(M,4.0));
+  if(p==='realloc')setSp(optimise(M,4.6));
+  if(p==='profit')setSp(profitMax(M).sp);
+  if(p==='cut')setSp(today.map(function(v){return v*0.75;}));
+});});
+
+var frontCache=null;
+function tile(label,val,delta,cls,hero){return '<div class="tile'+(hero?' hero':'')+'"><div class="tl">'+label+'</div><div class="tv">'+val+'</div><div class="ts '+(cls||'')+'">'+delta+'</div></div>';}
+function render(leversChanged){
+  var M=mk(st.lv), e=evalPlan(M,st.sp), T=evalPlan(M,today);
+  // control readouts
+  CH.forEach(function(c,i){var d=st.sp[i]-c.s;$('ch'+i+'-v').innerHTML='$'+Math.round(st.sp[i]*1000)+'K<small>'+(Math.abs(d)<0.005?'as today':(d>0?'+':'−')+'$'+Math.round(Math.abs(d)*1000)+'K')+'</small>';});
+  $('tot-paid').innerHTML='$'+e.paid.toFixed(2)+'M<small>'+(Math.abs(e.paid-4.6)<0.005?'as today':sgn(e.paid-4.6,function(x){return '$'+x.toFixed(2)+'M';})+' vs today')+'</small>';
+  LEV.forEach(function(L){$('lv-'+L.k+'-v').innerHTML=L.f(st.lv[L.k])+'<small>'+L.sub+'</small>';});
+  $('lv-halo-v').innerHTML=st.lv.halo+'%<small>share of lost paid revenue that returns via direct</small>';
+  $('inc-v').innerHTML='<small>'+(st.lv.inc===1?'model factors':(st.lv.inc<1?'factors × 0.7':'factors × 1.3'))+'</small>';
+  $('ltv-v').innerHTML='<small>'+(st.lv.ltv===1?'$220 of revenue':(st.lv.ltv===2?'$440 of revenue':'≈ $308 of revenue'))+'</small>';
+  // tiles
+  var dc=e.contrib-T.contrib, dr=e.rev-T.rev, dl=e.lt-T.lt;
+  var cls=function(v){return Math.abs(v)<0.005?'':(v>0?'up':'dn');};
+  $('otiles').innerHTML=
+    tile('In-year contribution',m(e.contrib),sgn(dc,function(x){return '$'+x.toFixed(2)+'M';})+' vs today · margin '+pct(e.cmPct),cls(dc),true)+
+    tile('Ecommerce revenue',m(e.rev),sgn(dr,function(x){return '$'+x.toFixed(2)+'M';})+' · '+sgn(dr/T.rev,function(x){return pct(x);}),cls(dr))+
+    tile('Lifetime contribution',m(e.lt),sgn(dl,function(x){return '$'+x.toFixed(2)+'M';})+' incl. repeat orders',cls(dl))+
+    tile('Net margin',pct(e.netPct),'$'+e.net.toFixed(2)+'M · today '+pct(T.netPct),cls(e.netPct-T.netPct))+
+    tile('Marketing % of revenue',pct(e.mktPct),'today '+pct(T.mktPct),cls(T.mktPct-e.mktPct))+
+    tile('Paid efficiency ratio',pct(e.eff,0),'today '+pct(T.eff,0)+' · rises when harvest spend is cut','')+
+    tile('New customers',(e.newc).toFixed(1)+'K',sgn(e.newc-T.newc,function(x){return x.toFixed(1)+'K';}),cls(e.newc-T.newc))+
+    tile('Blended CAC','$'+Math.round(e.cac),'today $'+Math.round(T.cac),cls(T.cac-e.cac))+
+    tile('Paid budget','$'+e.paid.toFixed(2)+'M','today $4.60M','');
+  // frontier
+  if(leversChanged||!frontCache)frontCache=frontier(M);
+  var F=frontCache, lts=F.map(function(p){return p.lt;}).concat([e.lt,T.lt]), revs=F.map(function(p){return p.rev;}).concat([e.rev,T.rev]);
+  var lo=Math.floor(Math.min.apply(null,lts)*4)/4-0.25, hi=Math.ceil(Math.max.apply(null,lts)*4)/4+0.25;
+  var pm=F.reduce(function(a,p){return p.lt>a.lt?p:a;},F[0]);
+  var xp=Math.min(7.5,Math.max(1.5,e.paid));
+  lineChart($('pl-front'),{w:460,h:200,x:[1.5,7.5],y:[lo,hi],xt:[2,3,4,5,6,7],fx:function(t){return '$'+t+'M';},fy:function(t){return t.toFixed(1);},label:'Lifetime contribution frontier',
+    series:[{pts:F.map(function(p){return [p.B,p.lt];}),color:'var(--s1)',w:2.2}],
+    dots:[{x:4.6,y:T.lt,color:'var(--ink)',r:4},{x:xp,y:e.lt,color:'var(--s1)',r:5.5}]});
+  var rlo=Math.floor(Math.min.apply(null,revs))-0.5, rhi=Math.ceil(Math.max.apply(null,revs))+0.5;
+  lineChart($('pl-rev'),{w:460,h:150,x:[1.5,7.5],y:[rlo,rhi],xt:[2,3,4,5,6,7],fx:function(t){return '$'+t+'M';},fy:function(t){return t.toFixed(0);},label:'Revenue frontier',
+    series:[{pts:F.map(function(p){return [p.B,p.rev];}),color:'var(--s2)',w:2}],
+    dots:[{x:4.6,y:T.rev,color:'var(--ink)',r:4},{x:xp,y:e.rev,color:'var(--s1)',r:5.5}]});
+  // marginal bars
+  barRows($('pl-marg'),CH.map(function(c,i){var v=marg(M,i,st.sp[i]);return {l:c.n,v:v,t:'$'+v.toFixed(2),c:v>=0.95?'':(v>=0.75?'g':'c')};}),1.6,{mark:1});
+  // read-out
+  var gap=pm.lt-e.lt;
+  $('pl-read').textContent='Best budget under these settings: about $'+pm.B.toFixed(2)+'M, worth '+m(pm.lt)+' lifetime contribution on '+m(pm.rev)+' revenue. Your plan is $'+Math.max(0,gap).toFixed(2)+'M below the frontier peak.';
+  tornado(M,e);
+}
+function tornado(M,e){
+  var base=e.contrib, sp=st.sp, lv=st.lv;
+  function run(mod,spMul){var l=Object.assign({},lv);mod(l);var MM=mk(l);return evalPlan(MM,sp.map(function(v){return v*(spMul||1);}));}
+  var items=[
+    ['Conversion rate ±5%',function(l){l.cvr-=5;},function(l){l.cvr+=5;}],
+    ['AOV ±5%',function(l){l.aov-=5;},function(l){l.aov+=5;}],
+    ['Gross margin ±2 pts',function(l){l.gm-=2;},function(l){l.gm+=2;}],
+    ['Variable costs ∓2 pts',function(l){l.varc+=2;},function(l){l.varc-=2;}],
+    ['Paid budget ±20%',null,null,0.8,1.2],
+    ['Email & SMS ±25%',function(l){l.email-=25;},function(l){l.email+=25;}],
+    ['Direct recapture ±20 pts',function(l){l.halo=Math.max(0,l.halo-20);},function(l){l.halo=Math.min(100,l.halo+20);}]
+  ].map(function(it){
+    var a=it[1]?run(it[1]):run(function(){},it[3]), b=it[2]?run(it[2]):run(function(){},it[4]);
+    return {l:it[0],lo:a.contrib-base,hi:b.contrib-base,rlo:a.rev-e.rev,rhi:b.rev-e.rev};
+  }).sort(function(x,y){return Math.max(Math.abs(y.lo),Math.abs(y.hi))-Math.max(Math.abs(x.lo),Math.abs(x.hi));});
+  var mx=Math.max.apply(null,items.map(function(i){return Math.max(Math.abs(i.lo),Math.abs(i.hi));}))||1;
+  function bar(v){var w=Math.abs(v)/mx*50;return '<span style="position:absolute;top:0;bottom:0;'+(v<0?'right:50%':'left:50%')+';width:'+w+'%;background:'+(v<0?'var(--crit)':'var(--s2)')+';opacity:.85"></span>';}
+  function f(v){return sgn(v,function(x){return '$'+x.toFixed(2)+'M';});}
+  $('tornado').innerHTML=items.map(function(i){
+    return '<div class="brow" style="grid-template-columns:minmax(120px,26%) 1fr minmax(150px,26%)"><span class="lb">'+i.l+'</span><div style="position:relative;height:14px;background:var(--neutral-2)">'+bar(i.lo)+bar(i.hi)+'<span style="position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink)"></span></div><span class="bv" style="text-align:left;font-size:11.5px">'+f(Math.min(i.lo,i.hi))+' / '+f(Math.max(i.lo,i.hi))+'<br><span class="dim">revenue '+f(i.rlo)+' / '+f(i.rhi)+'</span></span></div>';
+  }).join('');
+}
+setSp(rec); // open on the recommended plan
+})();
+</script>
+</body>
+</html>
