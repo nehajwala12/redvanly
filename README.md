@@ -7,7 +7,7 @@ A static, single-page report. No build step and no dependencies: just `index.htm
 | File | Purpose |
 |---|---|
 | `index.html` | The full report, with all CSS and JavaScript inline |
-| `favicon.svg` | CreditSwan swan mark |
+| `favicon.svg`, `favicon.png` | Official CreditSwan swan mark (cream on ink) |
 | `vercel.json` | Clean URLs and `noindex` headers so search engines skip the page |
 | `robots.txt` | Also asks crawlers to skip the site |
 
@@ -51,6 +51,8 @@ vercel --prod
 
 The page is public to anyone with the URL. It is excluded from search engines but is not password-protected. For access control, use Vercel's Deployment Protection (Pro plan) or ask for the encrypted-gate version.
 
-## Editing
+## Editing the numbers
 
-Numbers in the planner live in the `CH` array and the `REV0`, `OTHER_MKT`, `FIXED`, `NEW0`, `EMAIL0` and `AOV` constants near the bottom of `index.html`. Static narrative figures are in the HTML above them.
+All inputs live in one JSON block near the bottom of `index.html`: `<script id="data" type="application/json">`. It holds the call figures (`company`), the P&L lines (`pnl`), the channel parameters (`channels`), the recommended budget (`plan.budget`) and the chart series.
+
+Change a value there and every dependent figure updates on load: KPI tiles, the narrative numbers, the P&L table, the charts, the channel scorecard and the spend planner. Narrative figures are `<span data-k="...">` elements filled from the model.
