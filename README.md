@@ -1,5 +1,7 @@
 # Redvanly ecommerce diagnostic (CreditSwan preview)
 
+Version 2, October 2026: adds tab 10, Case studies (two anonymized apparel engagements), moves About CreditSwan to tab 02 with the current brand block, and adds a sticky sub-tab bar with deep links (`#tab/section`).
+
 A static, single-page report. No build step and no dependencies: just `index.html`. Fonts load from Google Fonts.
 
 ## Files
